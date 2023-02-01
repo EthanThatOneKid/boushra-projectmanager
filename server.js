@@ -8,21 +8,21 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-/* Ignore the MONGODB, I will use this later! */
-const mongoDB =
-  'mongodb+srv://BoushraBlog:boushrabettir@projectmanager.np7shhg.mongodb.net/blogs?retryWrites=true&w=majority';
-async function ConnectionMongo() {
-  try {
-    await mongoose.connect(mongoDB);
-    app.listen(3000); //infers local host
-    console.log('connected to mongo');
-  } catch (error) {
-    console.log(error);
-  }
-}
+// /* Ignore the MONGODB, I will use this later! */
+// const mongoDB =
+//   'mongodb+srv://BoushraBlog:boushrabettir@projectmanager.np7shhg.mongodb.net/blogs?retryWrites=true&w=majority';
+// async function ConnectionMongo() {
+//   try {
+//     await mongoose.connect(mongoDB);
+//     app.listen(3000); //infers local host
+//     console.log('connected to mongo');
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
-ConnectionMongo();
-
+// ConnectionMongo();
+app.listen(3000);
 app.get('/', (req, res) => {
   /* We are reading the contents and then rendering all to the front end */
   let renderingProjects = [];
@@ -47,7 +47,7 @@ app.post('/', (req, res) => {
   fs.writeFileSync('./public/projects.json', JSON.stringify(all), 'utf-8');
 });
 
-app.get(`/:projectname`, async (req, res) => {
+app.get(`/`, async (req, res) => {
   const projectname = req.params.projectname;
   fetch('./public/projects.json')
     .then((response) => response.json())

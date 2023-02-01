@@ -1,14 +1,1 @@
-[
-  {
-    "project": "Data Analytics",
-    "desc": "Data!!",
-    "name": "Boushra Bettir",
-    "money": "34"
-  },
-  {
-    "project": "Project 1",
-    "desc": "P 1",
-    "name": "Boushra Bettir",
-    "money": "33"
-  }
-]
+[{"project":"Data Analytics","desc":"Data!!","name":"Boushra Bettir","money":"34"},{"project":"Project 1","desc":"P 1","name":"Boushra Bettir","money":"33"},{"project":"asdasd","desc":"a","name":"Boushra Bettir","money":""}]
