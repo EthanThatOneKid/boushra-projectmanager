@@ -1,0 +1,50 @@
+<html>
+  <head> </head>
+  <body>
+    <%- include('./partials/header.ejs')%>
+    <div id="nav"><%- include('./partials/navigate.ejs')%></div>
+
+    <div class="all-projects">
+      <!-- Using the name attributes from the json file to render in the EJS file -->
+      <% for(let i = 0; i < renderingProjects.length; i++) { %>
+      <div class="projects">
+        <h3 class="project-name"><%= renderingProjects[i].project %></h3>
+        <p class="author"><%= renderingProjects[i].name %></p>
+        <h5 class="description"><%= renderingProjects[i].desc %></h5>
+        <h5 class="amount"><%= renderingProjects[i].money %></h5>
+      </div>
+      <% } %>
+    </div>
+
+    <div class="modal hidden">
+      <form class="form">
+        <h3>
+          Project Name:
+          <input
+            type="text"
+            name="project"
+            placeholder="E.g. Data Analytics"
+            required
+          />
+        </h3>
+        <h3>
+          Project Description:
+          <input
+            type="text"
+            name="desc"
+            placeholder="E.g. This project is about..."
+            required
+          />
+        </h3>
+        <h3>Name(s): <input type="text" name="name" required /></h3>
+        <h3>
+          Payment: <input type="number" name="money" placeholder="E.g. 15" />
+        </h3>
+        <button type="submit">Add</button>
+      </form>
+    </div>
+    <div class="overlay hidden"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
