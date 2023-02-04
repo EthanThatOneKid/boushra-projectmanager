@@ -26,12 +26,18 @@ app.listen(3000);
 app.get('/', (req, res) => {
   /* We are reading the contents and then rendering all to the front end */
   let renderingProjects = [];
+  let renderingEmployees = [];
   try {
     renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
+    renderingEmployees = JSON.parse(fs.readFileSync('./public/employees.json'));
   } catch (err) {
     console.error(err);
   }
-  res.render('index', { title: 'Homepage', renderingProjects });
+  res.render('index', {
+    title: 'Homepage',
+    renderingProjects,
+    renderingEmployees,
+  });
 });
 
 app.post('/', (req, res) => {

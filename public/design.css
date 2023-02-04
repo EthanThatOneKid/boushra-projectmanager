@@ -5,6 +5,7 @@
 html,
 body {
   background-color: rgb(223, 222, 230);
+  transition: all 500ms;
 }
 
 .title-container {
@@ -26,6 +27,61 @@ ul {
 
 ul a {
   text-decoration: none;
+}
+
+main {
+  position: relative;
+  max-width: 300rem;
+  margin: 3rem auto;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-template-rows: auto repeat(3, 13rem) auto;
+}
+
+.movements {
+  grid-row: 2 / span 3;
+  background-color: #fff;
+  box-shadow: 0 0 15px rgb(129, 129, 129);
+  border-radius: 1rem;
+  overflow-y: scroll;
+}
+
+.movements__row {
+  padding: 2.25rem 4rem;
+  display: grid;
+  /* place-items: center; */
+  /* justify-content: center; */
+  /*align-items: center; */
+  /* text-align: center; */
+  border-bottom: 1px solid #eee;
+}
+
+.name {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #5f3232;
+  padding: 0.1rem;
+  border-radius: 10rem;
+  /* margin-right: 13px; */
+}
+
+.position {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #666;
+}
+
+.status {
+  font-size: 1rem;
+  margin-left: auto;
+}
+
+@media screen and (max-width: 800px) {
+  .status {
+    opacity: 0;
+  }
 }
 
 .projects {
