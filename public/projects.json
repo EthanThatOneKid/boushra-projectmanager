@@ -1,15 +1,1 @@
-[
-  {
-    "project": "Data Analytics",
-    "desc": "Data!!",
-    "name": "Boushra Bettir",
-    "money": "34"
-  },
-  {
-    "project": "Project 1",
-    "desc": "P 1",
-    "name": "Boushra Bettir",
-    "money": "33"
-  },
-  { "project": "asdasd", "desc": "a", "name": "Boushra Bettir", "money": "" }
-]
+[{"project":"asdasd","desc":"asdasd","name":"Boushra Bettir","money":"34"},{"project":"Project 1","desc":"aa","name":"Boushra Bettir","money":""},{"project":"asdasd","desc":"asdasd","name":"sondos","money":"2323"},{"project":"have less patients","desc":"have everyone go home.","name":"kheira","money":"1000"}]

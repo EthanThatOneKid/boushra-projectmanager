@@ -2,44 +2,101 @@
   /* Color Scheme Variables Here! */
 }
 
+* {
+  font-family: 'Unbounded', sans-serif;
+}
 html,
 body {
-  background-color: rgb(223, 222, 230);
+  background-color: #e7eaf6;
   transition: all 500ms;
+  margin: 0;
+  padding: 0;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+  background-color: #a2a8d3;
+}
+
+.title-section {
+  font-size: 40px;
+  margin: 40px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid rgb(23, 24, 26);
+  min-width: 350px;
+  max-width: 350px;
 }
 
 .title-container {
   display: flex;
-  justify-content: space-between;
-  margin: 25px;
+  align-items: center;
 }
 
 .title-container h1 {
   font-size: 40px;
+  margin: 0;
+  color: rgb(23, 24, 26);
 }
 
 ul {
   display: flex;
   gap: 50px;
-  margin: 45px;
   font-size: 20px;
+  list-style-type: none;
+  margin: 0;
 }
 
 ul a {
   text-decoration: none;
+  color: white;
+}
+
+.adjust {
+  display: flex;
+  justify-content: center;
+  margin: 70px;
+}
+.add-container {
+  display: grid;
+  gap: 100px;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.add-container button {
+  font-size: 30px;
+  border: none;
+  box-shadow: 0 0 20px rgba(80, 78, 78, 0.7);
+  cursor: pointer;
+  padding: 30px;
+  border-radius: 75px;
+  color: white;
+  transition: all 500ms ease;
+}
+
+.add-container button:hover {
+  transform: scale(1.05);
+}
+.add-container .add-employee-btn {
+  background-color: rgb(121, 68, 68);
+}
+.add-container .add {
+  background-color: rgb(121, 112, 180);
 }
 
 main {
   position: relative;
-  max-width: 300rem;
-  margin: 3rem auto;
+  max-width: 700rem;
+
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  grid-template-columns: 3fr 1fr;
   grid-template-rows: auto repeat(3, 13rem) auto;
 }
 
 .movements {
-  grid-row: 2 / span 3;
+  grid-row: 2 / span 2;
   background-color: #fff;
   box-shadow: 0 0 15px rgb(129, 129, 129);
   border-radius: 1rem;
@@ -49,10 +106,11 @@ main {
 .movements__row {
   padding: 2.25rem 4rem;
   display: grid;
-  /* place-items: center; */
-  /* justify-content: center; */
-  /*align-items: center; */
-  /* text-align: center; */
+  /* display flex on phone */
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   border-bottom: 1px solid #eee;
 }
 
@@ -78,9 +136,18 @@ main {
   margin-left: auto;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
+  .movements__row {
+    padding: 2.25rem 4rem;
+    grid-template-columns: none;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
   .status {
-    opacity: 0;
+    margin: auto;
   }
 }
 

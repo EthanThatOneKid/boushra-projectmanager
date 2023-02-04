@@ -1,31 +1,19 @@
 <html>
-  <head> </head>
+  <head> 
+    <%- include('./partials/fonts.ejs')%>
+  </head>
   <body>
     <%- include('./partials/header.ejs')%>
     <div id="nav"><%- include('./partials/navigate.ejs')%></div>
     <p>Total Count: <span></span></p>
-    <!-- <div class="employee-container">
-      <table>
-        <tr class="employee-info">
-          <td>Employee Name</td>
-          <td>Employee Position</td>
-          <td>Employee Status</td>
-        </tr>
-        <div class="movements__row">
-          <tr class="employee-output">
-            <td class="scrollable" id="name"></td>
-            <td class="scrollable" id="position"></td>
-            <td class="scrollable" id="status"></td>
-          </tr>
-        </div>
-      </table>
-    </div> -->
-
+    <input class = 'search-bar' value = '' type = 'search' />
+    <p class = 'title-section'> Employees </p>
+   <div class = 'adjust'>
     <main>
       <div class="movements">
         <% for (let i = 0; i < renderingEmployees.length; i++) { %>
         <div class="movements__row">
-          <div class="name" id="name"><%= renderingEmployees[i].name %></div>
+          <div class="name" id="name"><%= renderingEmployees[i].employee %></div>
           <div class="position" id="position">
             <%= renderingEmployees[i].position %>
           </div>
@@ -36,6 +24,13 @@
         <% } %>
       </div>
     </main>
+    <div class = 'add-container'>
+      <button type = 'button' class="add-employee-btn"><span><img src = '../public/users.png'></span>Add an Employee</button>
+      <button type="button" class="add">Add A Project</button>
+    </div>
+  </div>
+    
+  <p class = 'title-section'> Projects </p>
     <div class="all-projects">
       <!-- Using the name attributes from the json file to render in the EJS file -->
       <% for(let i = 0; i < renderingProjects.length; i++) { %>
@@ -72,10 +67,34 @@
         <h3>
           Payment: <input type="number" name="money" placeholder="E.g. 15" />
         </h3>
-        <button type="submit">Add</button>
+        <button type="submit">Add</button></form>
       </form>
     </div>
     <div class="overlay hidden"></div>
+
+
+
+    <div class="modal hidden employee">
+      <form class="form-employee">
+        <h3>
+          Employee:
+          <input
+            type="text"
+            name="employee"
+            placeholder="E.g. Samantha"
+            required
+          />
+        </h3>
+        <h3>Position: <input type="text" name="position" required /></h3>
+        <select name = 'status'>
+          <option>Currently Working</option>
+          <option>Currently On Leave</option>
+          <option>Currently on Holiday</option>
+        </select>
+        <button type="submit">Add</button></form>
+      </form>
+    </div>
+    <div class="overlay employeeOverlay hidden"></div>
 
     <script src="script.js"></script>
     <script src="employees.js"></script>
