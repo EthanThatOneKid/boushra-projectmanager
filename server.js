@@ -31,9 +31,13 @@ app.get('/', (req, res) => {
   try {
     renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
     renderingEmployees = JSON.parse(fs.readFileSync('./public/employees.json'));
+    
   } catch (err) {
     console.log(err);
   }
+  renderingProjects.reverse();
+  renderingEmployees.reverse();
+  
   res.render('index', {
     title: 'Homepage',
     renderingProjects,

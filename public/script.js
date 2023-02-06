@@ -43,8 +43,6 @@ employeeBtn.addEventListener('click', () => {
 
 /* Attempting to use JSON before using MongoDB */
 /* Sending a POST request for the backend to use */
-
-let dataArray = [];
 let formData1;
 employeeForm.addEventListener('submit', (e) => {
   let formData1 = new FormData(employeeForm);
@@ -84,22 +82,23 @@ If the input/ value of the search bar is equivalent to one of the names letters
  */
 // let arraySearch = Array.of(search.value);
 
+let employeeContainer = document.querySelector('.movements');
 let search = document.querySelector('.search-bar');
+let dataArray = [];
+search.addEventListener('input', (e) => {
 fetch('./employees.json')
   .then((response) => response.json())
   .then((data) => {
-    dataArray = data.employee;
-    // if (!dataArray) return;
-    search.addEventListener('input', (e) => {
-      let searching = search.value.toLowerCase();
-      console.log(searching);
-      // let filteredData = dataArray.filter((element) => {
-      //   return Object.values(element).some((value) =>
-      //     value.includes(searching)
-      //   );
-      // });
-      console.log(dataArray);
-      console.log(filteredData);
+    data.forEach(employee => {
+      if (employee.employee.includes(search.value.toLowerCase())) {
+        dataArray.push(employee);
+      }
+    });
+    const filteredEmployees = Array.from(employeeContainer).filter(element => {
+      const employee = dataArray.find(e => e.employee === element.textContent);
+      console.log(employee)
+    });
+
     });
   });
 

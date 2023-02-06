@@ -5,9 +5,9 @@
   <body>
     <%- include('./partials/header.ejs')%>
     <div id="nav"><%- include('./partials/navigate.ejs')%></div>
-    <p>Total Count: <span></span></p>
-    <input class = 'search-bar' value = '' type = 'search' />
+    <!-- <p>Total Count: <span></span></p> -->
     <p class = 'title-section'> Employees </p>
+    <input class = 'search-bar' value = '' type = 'search' />
    <div class = 'adjust'>
     <main>
       <div class="movements">
@@ -25,8 +25,8 @@
       </div>
     </main>
     <div class = 'add-container'>
-      <button type = 'button' class="add-employee-btn"><span><img src = '../public/users.png'></span>Add an Employee</button>
-      <button type="button" class="add">Add A Project</button>
+      <button type = 'button' class="add-employee-btn">👤 Add an Employee</button>
+      <button type="button" class="add">📄 Add A Project</button>
     </div>
   </div>
     
@@ -36,9 +36,12 @@
       <% for(let i = 0; i < renderingProjects.length; i++) { %>
       <div class="projects">
         <h3 class="project-name"><%= renderingProjects[i].project %></h3>
+        <div class = 'description-container'>
         <p class="author"><%= renderingProjects[i].name %></p>
-        <h5 class="description"><%= renderingProjects[i].desc %></h5>
-        <h5 class="amount"><%= renderingProjects[i].money %></h5>
+        <p>●</p>
+        <p class="amount"><%= renderingProjects[i].money %></p>
+      </div>
+      <h5 class="description"><%= renderingProjects[i].desc %></h5>
       </div>
       <% } %>
     </div>
@@ -54,20 +57,20 @@
             required
           />
         </h3>
-        <h3>
-          Project Description:
-          <input
-            type="text"
-            name="desc"
-            placeholder="E.g. This project is about..."
-            required
-          />
-        </h3>
         <h3>Name(s): <input type="text" name="name" required /></h3>
         <h3>
           Payment: <input type="number" name="money" placeholder="E.g. 15" />
         </h3>
-        <button type="submit">Add</button></form>
+        <h3>
+          Project Description:
+          <input
+            type="comment"
+            name="desc"
+            placeholder="E.g. This project is about..." size = "30"
+            required
+          />
+        </h3>
+        <button type="submit" class = 'add-btns'>Add</button></form>
       </form>
     </div>
     <div class="overlay hidden"></div>
@@ -88,10 +91,10 @@
         <h3>Position: <input type="text" name="position" required /></h3>
         <select name = 'status'>
           <option>Currently Working</option>
-          <option>Currently On Leave</option>
-          <option>Currently on Holiday</option>
+          <option>On Leave</option>
+          <option>On Holiday</option>
         </select>
-        <button type="submit">Add</button></form>
+        <button type="submit" class = 'add-btns'>Add</button></form>
       </form>
     </div>
     <div class="overlay employeeOverlay hidden"></div>
