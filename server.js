@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { Project } = require('./model/model');
 const fs = require('fs');
+const { title } = require('process');
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use(express.static('public'));
 // ConnectionMongo();
 let renderingProjects = [];
 let renderingEmployees = [];
+let renderingTasks = [];
 app.listen(3000);
 
 app.get('/', (req, res) => {
@@ -31,13 +33,12 @@ app.get('/', (req, res) => {
   try {
     renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
     renderingEmployees = JSON.parse(fs.readFileSync('./public/employees.json'));
-    
   } catch (err) {
     console.log(err);
   }
   renderingProjects.reverse();
   renderingEmployees.reverse();
-  
+
   res.render('index', {
     title: 'Homepage',
     renderingProjects,
@@ -61,6 +62,7 @@ app.post('/employee', (req, res) => {
   );
 });
 
+// let id = 1;
 app.post('/project', (req, res) => {
   /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the projects.json */
   try {
@@ -69,10 +71,49 @@ app.post('/project', (req, res) => {
   } catch (err) {
     console.error(err);
   }
-  renderingProjects.push(req.body);
+  const newProject = {
+    ...req.body,
+    id: Date.now(),
+  };
+  renderingProjects.push(newProject);
   fs.writeFileSync(
     './public/projects.json',
     JSON.stringify(renderingProjects),
+    'utf-8'
+  );
+});
+
+app.get('/project/:id', (req, res) => {
+  const id = req.params.id;
+  try {
+    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
+  } catch (err) {
+    console.error(err);
+  }
+
+  res.render('projects.ejs', {
+    title: 'Projects',
+    renderingProjects: renderingProjects,
+    id: id,
+  });
+});
+
+app.post('/project/', (req, res) => {
+  /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the projects.json */
+  try {
+    /* Reading file first in order to create a new updated Project, (looking at the contents) */
+    renderingTasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
+  } catch (err) {
+    console.error(err);
+  }
+  const task = {
+    ...req.body,
+    id: Date.now(),
+  };
+  renderingTasks.push(task);
+  fs.writeFileSync(
+    './public/tasks.json',
+    JSON.stringify(renderingTasks),
     'utf-8'
   );
 });

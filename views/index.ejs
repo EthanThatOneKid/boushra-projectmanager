@@ -7,7 +7,7 @@
     <div id="nav"><%- include('./partials/navigate.ejs')%></div>
     <!-- <p>Total Count: <span></span></p> -->
     <p class = 'title-section'> Employees </p>
-    <input class = 'search-bar' value = '' type = 'search' />
+    <input class = 'search-bar' value = '' size = '50' type = 'search' />
    <div class = 'adjust'>
     <main>
       <div class="movements">
@@ -34,7 +34,8 @@
     <div class="all-projects">
       <!-- Using the name attributes from the json file to render in the EJS file -->
       <% for(let i = 0; i < renderingProjects.length; i++) { %>
-      <div class="projects">
+        <div class = 'projects'>
+        <a href="/project/<%= renderingProjects[i].id %>">
         <h3 class="project-name"><%= renderingProjects[i].project %></h3>
         <div class = 'description-container'>
         <p class="author"><%= renderingProjects[i].name %></p>
@@ -43,6 +44,8 @@
       </div>
       <h5 class="description"><%= renderingProjects[i].desc %></h5>
       </div>
+    </a>
+  </div>
       <% } %>
     </div>
 

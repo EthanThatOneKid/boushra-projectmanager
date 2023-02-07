@@ -43,11 +43,13 @@ employeeBtn.addEventListener('click', () => {
 
 /* Attempting to use JSON before using MongoDB */
 /* Sending a POST request for the backend to use */
-let formData1;
+
+let employeeArray = [];
+let data;
 employeeForm.addEventListener('submit', (e) => {
   let formData1 = new FormData(employeeForm);
-  let data = Object.fromEntries(formData1);
-  //dataArray.push(data);
+  data = Object.fromEntries(formData1);
+  employeeArray.push({ ...data, id: Date.now() });
 
   fetch('http://localhost:3000/employee', {
     method: 'POST',
@@ -75,6 +77,10 @@ projectForm.addEventListener('submit', (e) => {
   console.log('Button clicked');
 });
 
+/* This is for projects */
+
+/* Remove Btns For Employees */
+
 /* This will be for the search bar */
 
 /*
@@ -82,25 +88,28 @@ If the input/ value of the search bar is equivalent to one of the names letters
  */
 // let arraySearch = Array.of(search.value);
 
-let employeeContainer = document.querySelector('.movements');
-let search = document.querySelector('.search-bar');
-let dataArray = [];
-search.addEventListener('input', (e) => {
-fetch('./employees.json')
-  .then((response) => response.json())
-  .then((data) => {
-    data.forEach(employee => {
-      if (employee.employee.includes(search.value.toLowerCase())) {
-        dataArray.push(employee);
-      }
-    });
-    const filteredEmployees = Array.from(employeeContainer).filter(element => {
-      const employee = dataArray.find(e => e.employee === element.textContent);
-      console.log(employee)
-    });
-
-    });
-  });
+// let employeeContainer = document.querySelector('.movements');
+// let search = document.querySelector('.search-bar');
+// let dataArray = [];
+// search.addEventListener('input', (e) => {
+//   fetch('./employees.json')
+//     .then((response) => response.json())
+//     .then((data) => {
+//       data.forEach((employee) => {
+//         if (employee.employee.includes(search.value.toLowerCase())) {
+//           dataArray.push(employee);
+//         }
+//       });
+//       const filteredEmployees = Array.from(employeeContainer).filter(
+//         (element) => {
+//           const employee = dataArray.find(
+//             (e) => e.employee === element.textContent
+//           );
+//           console.log(employee);
+//         }
+//       );
+//     });
+// });
 
 // /* Adding their own pages */
 // let projects = document.querySelectorAll('.projects');
