@@ -3,8 +3,32 @@
 let modal = document.querySelector('.modal');
 let overlay = document.querySelector('.overlay');
 let add = document.querySelector('.add');
-let employeeOverlay = document.querySelector('.employeeOverlay');
+
+/* Location VV */
+let locationOverlay = document.querySelector('.locationOverlay');
+let locationModal = document.querySelector('.location-modal');
+let locationOutput = document.querySelector('.location');
+let removeBtn = document.querySelector('.remove');
+let formLocation = document.querySelector('.form-location');
+let addBtnLocation = document.querySelector('.add-btns-location');
+let locationBtn = document.querySelector('.chg-btn');
+let locationInput = document.querySelector('.location-field');
+let i = 0;
+let newLocations = [];
+
+/* Project  VV */
+
 let projectForm = document.querySelector('form');
+
+/* Employee VV */
+
+let employeeBtn = document.querySelector('.add-employee-btn');
+let employeeOverlay = document.querySelector('.employeeOverlay');
+let employeeForm = document.querySelector('.form-employee');
+let employeeModal = document.querySelector('.employee');
+let total = document.querySelector('span');
+let employeeArray = [];
+let data;
 
 add.addEventListener('click', () => {
   modal.classList.toggle('hidden');
@@ -21,8 +45,14 @@ const CloseEmployeeModule = () => {
   employeeOverlay.classList.toggle('hidden');
 };
 
+const CloseLocationModule = () => {
+  locationModal.classList.toggle('hidden');
+  locationOverlay.classList.toggle('hidden');
+};
+
 overlay.addEventListener('click', CloseModule);
 employeeOverlay.addEventListener('click', CloseEmployeeModule);
+locationOverlay.addEventListener('click', CloseLocationModule);
 
 document.addEventListener('keydown', (e) => {
   if (e.key == 'Escape' && !modal.classList.contains('hidden')) {
@@ -30,11 +60,38 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+/* Adding Location Static Data */
+
+locationBtn.addEventListener('click', () => {
+  locationModal.classList.toggle('hidden');
+  locationOverlay.classList.toggle('hidden');
+});
+
+removeBtn.addEventListener('click', () => {
+  locationModal.classList.remove('hidden');
+  locationOverlay.classList.remove('hidden');
+});
+
+/* Attempted using localStorage for the first time! */
+
+addBtnLocation.addEventListener('click', () => {
+  if (locationInput) {
+    newLocations[i] = { name: formLocation.locationName.value };
+    localStorage.setItem('newLocations', JSON.stringify(newLocations));
+  }
+});
+
+window.onload = () => {
+  let storedLocations = JSON.parse(localStorage.getItem('newLocations')) || [];
+  /* Wow should I delete the short circuiting operator should I should I not hmm */
+  if (storedLocations?.length > 0) {
+    newLocations = storedLocations;
+    i = storedLocations.length;
+    locationOutput.textContent = newLocations[newLocations.length - 1].name;
+  }
+};
+
 /* Adding Employee Btns */
-let employeeBtn = document.querySelector('.add-employee-btn');
-let employeeForm = document.querySelector('.form-employee');
-let employeeModal = document.querySelector('.employee');
-let total = document.querySelector('span');
 
 employeeBtn.addEventListener('click', () => {
   employeeModal.classList.toggle('hidden');
@@ -43,9 +100,6 @@ employeeBtn.addEventListener('click', () => {
 
 /* Attempting to use JSON before using MongoDB */
 /* Sending a POST request for the backend to use */
-
-let employeeArray = [];
-let data;
 employeeForm.addEventListener('submit', (e) => {
   let formData1 = new FormData(employeeForm);
   data = Object.fromEntries(formData1);

@@ -97,10 +97,29 @@
           <option>On Leave</option>
           <option>On Holiday</option>
         </select>
+        <br>
         <button type="submit" class = 'add-btns'>Add</button></form>
       </form>
     </div>
     <div class="overlay employeeOverlay hidden"></div>
+
+
+
+    <div class="modal hidden location-modal">
+      <form class="form-location">
+        <button class = 'remove'> Remove </button>
+        <h3>
+          Default Locations:
+          <select>
+           <option data-id="1"> Palos </option>
+           <option data-id="2"> Rancho </option>
+          </select>
+          <input type = 'text' name = 'locationName' value = '' class = 'location-field' />
+        </h3>
+        <button type="submit" class = 'add-btns-location'>Add</button></form>
+      </form>
+    </div>
+    <div class="overlay locationOverlay hidden"></div>
 
     <script src="script.js"></script>
     <script src="employees.js"></script>

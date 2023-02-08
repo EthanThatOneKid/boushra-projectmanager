@@ -14,7 +14,7 @@ body {
 }
 
 nav {
-  padding: 30px;
+  padding: 50px;
 }
 
 .title-section {
@@ -32,7 +32,7 @@ nav {
 }
 
 .title-container h1 {
-  font-size: 40px;
+  font-size: 60px;
   margin: 0;
   color: rgb(23, 24, 26);
   border-bottom: 2px solid black;
@@ -41,6 +41,7 @@ nav {
 ul {
   display: flex;
   justify-content: space-around;
+  align-items: center;
   gap: 50px;
   font-size: 30px;
   list-style-type: none;
@@ -65,6 +66,20 @@ a:hover {
   color: white;
 }
 
+nav .p {
+  align-items: center;
+}
+
+.p p {
+  background-color: rgb(129, 129, 176);
+  padding: 15px;
+  border-radius: 25px;
+}
+nav .p button {
+  border: none;
+  border-radius: 15px;
+}
+
 .search-bar {
   margin: auto;
   display: flex;
@@ -75,12 +90,13 @@ a:hover {
 .adjust {
   display: flex;
   justify-content: center;
-  margin: 70px;
+  align-items: center;
+  margin-top: 50px;
 }
 .add-container {
   display: grid;
-  gap: 40px;
-  grid-template-rows: 1fr 1fr 1fr;
+  gap: 20px;
+  grid-template-rows: 2fr 2fr 1.6fr;
 }
 
 .add-container button {
@@ -88,7 +104,7 @@ a:hover {
   border: none;
   box-shadow: 0 0 20px rgba(80, 78, 78, 0.7);
   cursor: pointer;
-  padding: 30px;
+  padding: 120px;
   color: white;
   transition: all 500ms ease;
 }
@@ -105,11 +121,12 @@ a:hover {
 
 main {
   display: grid;
-  grid-template-columns: 8fr 1fr;
+  grid-template-columns: 5fr 2fr;
   grid-template-rows: auto repeat(3, 15rem) auto;
 }
 
 .movements {
+  transform: scale(1.2);
   grid-row: 2 / span 2;
   background-color: #fff;
   box-shadow: 0 0 15px rgb(129, 129, 129);
@@ -194,25 +211,26 @@ main {
 }
 
 .add-btns {
-  font-size: 30px;
+  font-size: 20px;
+  margin: 20px;
   border: none;
   background-color: rgb(75, 122, 75);
-  padding: 10px 50px 10px 50px;
+  padding: 10px 40px 10px 40px;
   cursor: pointer;
   color: white;
   border-radius: 55px;
-  box-shadow: 0 0 0 5px rgb(61, 86, 61);
+  box-shadow: 0 0 5px rgb(61, 86, 61);
 }
 
 .modal {
   background-color: rgb(205, 205, 212);
   border-radius: 10px;
-  padding: 80px;
+  padding: 60px;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
   position: absolute;
   text-align: center;
   z-index: 15;
-  font-size: 20px;
+  font-size: 30px;
   margin: 0 auto;
   left: 50%;
   top: 50%;
