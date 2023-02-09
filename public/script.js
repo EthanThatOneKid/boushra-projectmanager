@@ -25,7 +25,9 @@ let projectForm = document.querySelector('form');
 let employeeBtn = document.querySelector('.add-employee-btn');
 let employeeOverlay = document.querySelector('.employeeOverlay');
 let employeeForm = document.querySelector('.form-employee');
+let employeeContainerMovement = document.querySelector('.movements');
 let employeeModal = document.querySelector('.employee');
+let employeeRow = document.querySelector('.movements__row');
 let total = document.querySelector('span');
 let employeeArray = [];
 let data;
@@ -100,11 +102,15 @@ employeeBtn.addEventListener('click', () => {
 
 /* Attempting to use JSON before using MongoDB */
 /* Sending a POST request for the backend to use */
+let newArray = [];
 employeeForm.addEventListener('submit', (e) => {
   let formData1 = new FormData(employeeForm);
   data = Object.fromEntries(formData1);
-  employeeArray.push({ ...data, id: Date.now() });
-
+  console.log(formData1);
+  // console.log(data);
+  // employeeArray.push({ ...data, id: Date.now() });
+  // if (!newArray.includes(data.employee)) newArray.push(data.employee);
+  // else return;
   fetch('http://localhost:3000/employee', {
     method: 'POST',
     headers: {
@@ -115,6 +121,7 @@ employeeForm.addEventListener('submit', (e) => {
 
   console.log('Button clicked');
 });
+console.log(data);
 
 projectForm.addEventListener('submit', (e) => {
   const formData = new FormData(projectForm);
@@ -142,28 +149,94 @@ If the input/ value of the search bar is equivalent to one of the names letters
  */
 // let arraySearch = Array.of(search.value);
 
-// let employeeContainer = document.querySelector('.movements');
-// let search = document.querySelector('.search-bar');
-// let dataArray = [];
-// search.addEventListener('input', (e) => {
-//   fetch('./employees.json')
-//     .then((response) => response.json())
-//     .then((data) => {
-//       data.forEach((employee) => {
-//         if (employee.employee.includes(search.value.toLowerCase())) {
-//           dataArray.push(employee);
-//         }
-//       });
-//       const filteredEmployees = Array.from(employeeContainer).filter(
-//         (element) => {
-//           const employee = dataArray.find(
-//             (e) => e.employee === element.textContent
-//           );
-//           console.log(employee);
-//         }
-//       );
-//     });
-// });
+const showResults = (search) => {
+  fetch('./employees.json')
+    .then((response) => response.json())
+    .then((data) => {
+      let filteredData = data.filter((element) =>
+        element.employee.includes(search.value)
+      );
+      let htmlLiteral = '';
+      filteredData.forEach((element) => {
+        htmlLiteral += `
+        <div class="movements__row">
+        <div class="name" id="name">
+        ${element.employee}
+        </div>
+        <div class="position" id="position">
+        ${element.position}
+        </div>
+        <div class="status" id="position">
+        ${element.status}
+        </div>
+        </div>
+        `;
+      });
+      employeeContainerMovement.innerHTML = htmlLiteral;
+
+      /*
+      
+---- attempt 1 --------
+        fetch('./employees.json')
+    .then((response) => response.json())
+    .then((data) => {
+      let finalData = [];
+      for (let { employee, index } of data) {
+        finalData.push(employee);
+      }
+      console.log(finalData);
+      finalData.filter((elem, index) => {
+        if (elem === search.value) {
+          console.log('Ya did it mate!');
+        }
+      });
+
+         
+    });
+      -----------attempt 2---------------
+      fetch('./employees.json')
+    .then((response) => response.json())
+    .then((data) => {
+      let finalData = [];
+      for (let { employee, index } of data) {
+        finalData.push(employee);
+      }
+      finalData.filter((elem, index) => {
+        if (elem.includes(search.value)) {
+
+
+          console.log(`${elem} : ${search.value}`);
+          employeeContainerMovement.textContent = elem;
+        }
+      });
+
+      
+          if the current element inclues search.value
+          console.log('u did it') else continue
+
+          OR
+
+          lets do .find()? 
+          -> Nope it did not work. Rather use this way instead
+         *
+    });
+      */
+    });
+};
+
+let employeeContainer = document.querySelector('.movements');
+let search = document.querySelector('.search-bar');
+let dataArray = [];
+search.addEventListener('input', (e) => {
+  console.log(search.value);
+  showResults(search);
+
+  /*
+  if the search.value equats to the fetchData.employee
+  filter out those values and push it into a new array (maybe using map method)
+  or just push to the dataArray
+   */
+});
 
 // /* Adding their own pages */
 // let projects = document.querySelectorAll('.projects');

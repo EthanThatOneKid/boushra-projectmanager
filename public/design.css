@@ -228,6 +228,7 @@ main {
   padding: 60px;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
   position: absolute;
+
   text-align: center;
   z-index: 15;
   font-size: 30px;
