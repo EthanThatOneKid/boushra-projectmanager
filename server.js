@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { Project } = require('./model/model');
 const fs = require('fs');
-const { title } = require('process');
 
 const app = express();
 app.use(express.json());
@@ -23,8 +22,8 @@ app.use(express.static('public'));
 // }
 
 // ConnectionMongo();
-let renderingProjects = [];
-let renderingEmployees = [];
+let renderingProjects;
+let renderingEmployees;
 let renderingTasks = [];
 app.listen(3000);
 

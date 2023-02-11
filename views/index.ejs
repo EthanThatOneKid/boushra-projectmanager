@@ -7,10 +7,11 @@
     <div id="nav"><%- include('./partials/navigate.ejs')%></div>
     <!-- <p>Total Count: <span></span></p> -->
     <p class = 'title-section'> Employees </p>
-    <input class = 'search-bar' value = '' size = '50' type = 'search' />
+    <input class = 'search-bar' value = '' size = '50' placeholder="Input employee name..." type = 'search' />
    <div class = 'adjust'>
     <main>
       <div class="movements">
+        <%  if(renderingEmployees.length > 0) {%>
         <% for (let i = 0; i < renderingEmployees.length; i++) { %>
         <div class="movements__row">
           <div class="name" id="name"><%= renderingEmployees[i].employee %></div>
@@ -20,6 +21,13 @@
           <div class="status" id="position">
             <%= renderingEmployees[i].status %>
           </div>
+        </div>
+        <% } %>
+        <% } else { %>
+          <div class = 'add-employee'>
+          <p> 📋 </p>
+          <h1>Uh oh, no employees!</h1> 
+          <h6> Add employees by clicking the <span> Add an Employee </span> button to start.</h6>
         </div>
         <% } %>
       </div>
@@ -33,9 +41,10 @@
   <p class = 'title-section'> Projects </p>
     <div class="all-projects">
       <!-- Using the name attributes from the json file to render in the EJS file -->
+      <%  if(renderingProjects.length > 0) {%>
       <% for(let i = 0; i < renderingProjects.length; i++) { %>
         <div class = 'projects'>
-        <a href="/project/<%= renderingProjects[i].id %>">
+        <!-- <a href="/project/<%= renderingProjects[i].id %>"> -->
         <h3 class="project-name"><%= renderingProjects[i].project %></h3>
         <div class = 'description-container'>
         <p class="author"><%= renderingProjects[i].name %></p>
@@ -44,9 +53,17 @@
       </div>
       <h5 class="description"><%= renderingProjects[i].desc %></h5>
       </div>
-    </a>
+    <!-- </a> -->
   </div>
       <% } %>
+      <% } else { %>
+        <div class = 'add-project'>
+          <p> 📝 </p>
+          <h1>Uh oh, no projects!</h1> 
+          <h6> Add employees by clicking the <span> Add an Employee </span> button to start.</h6>
+        </div>
+
+        <% } %>
     </div>
 
     <div class="modal hidden">
@@ -61,7 +78,15 @@
             required
           />
         </h3>
-        <h3>Name(s): <input type="text" name="name" required /></h3>
+        <h3> Employee Name : </h3>
+        <select  name = "name" required>
+          
+          <% for (let i = 0; i < renderingEmployees.length; i++) { %>
+          <option>
+            <%= renderingEmployees[i].employee %>
+          </option>
+          <% } %>
+        </select>
         <h3>
           Payment: <input type="number" name="money" placeholder="E.g. 15" />
         </h3>
@@ -99,6 +124,7 @@
           <option>On Leave</option>
           <option>On Holiday</option>
         </select>
+
         <br>
         <button type="submit" class = 'add-btns'>Add</button></form>
       </form>

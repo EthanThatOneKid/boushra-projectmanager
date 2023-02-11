@@ -4,6 +4,7 @@
 
 * {
   font-family: 'Calibri', sans-serif;
+
 }
 html,
 body {
@@ -92,6 +93,7 @@ nav .p button {
   justify-content: center;
   align-items: center;
   margin-top: 50px;
+  margin-left: 50px;
 }
 .add-container {
   display: grid;
@@ -121,12 +123,39 @@ nav .p button {
 
 main {
   display: grid;
-  grid-template-columns: 5fr 2fr;
-  grid-template-rows: auto repeat(3, 15rem) auto;
+  grid-template-columns: 7fr 1fr;
+  grid-template-rows: auto repeat(3, 16rem) auto;
+
+}
+
+.add-employee {
+  font-size: 20px;
+  margin: 0px 40px 0px 40px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-employee p {
+  transform: scale(1.5);
+  font-size: 2em;
+}
+
+.add-project {
+  text-align: center;
+  background-color: #c2c4cd;
+  padding: 30px;
+  font-size: 20px;
+  margin: 40px;
+}
+
+.add-project p {
+  transform: scale(1.6);
+  font-size: 2em;
 }
 
 .movements {
-  transform: scale(1.2);
+  transform: scale(1.15);
   grid-row: 2 / span 2;
   background-color: #fff;
   box-shadow: 0 0 15px rgb(129, 129, 129);

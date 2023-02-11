@@ -19,6 +19,7 @@ let newLocations = [];
 /* Project  VV */
 
 let projectForm = document.querySelector('form');
+let searchBarProject = document.querySelector('.search-bar-project');
 
 /* Employee VV */
 
@@ -102,15 +103,9 @@ employeeBtn.addEventListener('click', () => {
 
 /* Attempting to use JSON before using MongoDB */
 /* Sending a POST request for the backend to use */
-let newArray = [];
 employeeForm.addEventListener('submit', (e) => {
   let formData1 = new FormData(employeeForm);
   data = Object.fromEntries(formData1);
-  console.log(formData1);
-  // console.log(data);
-  // employeeArray.push({ ...data, id: Date.now() });
-  // if (!newArray.includes(data.employee)) newArray.push(data.employee);
-  // else return;
   fetch('http://localhost:3000/employee', {
     method: 'POST',
     headers: {
@@ -118,15 +113,12 @@ employeeForm.addEventListener('submit', (e) => {
     },
     body: JSON.stringify(data).toLowerCase(),
   });
-
-  console.log('Button clicked');
 });
-console.log(data);
+
 
 projectForm.addEventListener('submit', (e) => {
   const formData = new FormData(projectForm);
   const data = Object.fromEntries(formData);
-  console.log(data);
 
   fetch('http://localhost:3000/project', {
     method: 'POST',
@@ -135,19 +127,9 @@ projectForm.addEventListener('submit', (e) => {
     },
     body: JSON.stringify(data).toLowerCase(),
   });
-  console.log('Button clicked');
 });
 
-/* This is for projects */
-
-/* Remove Btns For Employees */
-
 /* This will be for the search bar */
-
-/*
-If the input/ value of the search bar is equivalent to one of the names letters
- */
-// let arraySearch = Array.of(search.value);
 
 const showResults = (search) => {
   fetch('./employees.json')
@@ -157,6 +139,7 @@ const showResults = (search) => {
         element.employee.includes(search.value)
       );
       let htmlLiteral = '';
+      if(filteredData.length > 0) {
       filteredData.forEach((element) => {
         htmlLiteral += `
         <div class="movements__row">
@@ -172,11 +155,48 @@ const showResults = (search) => {
         </div>
         `;
       });
-      employeeContainerMovement.innerHTML = htmlLiteral;
+    } else {
+      htmlLiteral = `
+      <div class="movements__row">
+      <div class="name" id="name">
+      ${"Undefined Name"}
+      </div>
+      <div class="position" id="position">
+      ${"Undefined Position"}
+      </div>
+      <div class="status" id="position">
+      ${"Undefined Status"}
+      </div>
+      </div>
+      `;
+    }
+    employeeContainerMovement.innerHTML = htmlLiteral;
 
-      /*
-      
----- attempt 1 --------
+    });
+};
+
+let employeeContainer = document.querySelector('.movements');
+let search = document.querySelector('.search-bar');
+search.addEventListener('input', (e) => {
+  showResults(search);
+});
+
+
+
+// /* Adding their own pages */
+// let projects = document.querySelectorAll('.projects');
+// projects.forEach((project, index) => {
+//   project.addEventListener('click', () => {
+//     fetch('/projects.json')
+//       .then((response) => response.json())
+//       .then((d) => {
+//         console.log(`${d[index].project} was clicked.`);
+//       });
+//   });
+// });
+
+/*
+--- attempt 1 --------
         fetch('./employees.json')
     .then((response) => response.json())
     .then((data) => {
@@ -221,31 +241,3 @@ const showResults = (search) => {
          *
     });
       */
-    });
-};
-
-let employeeContainer = document.querySelector('.movements');
-let search = document.querySelector('.search-bar');
-let dataArray = [];
-search.addEventListener('input', (e) => {
-  console.log(search.value);
-  showResults(search);
-
-  /*
-  if the search.value equats to the fetchData.employee
-  filter out those values and push it into a new array (maybe using map method)
-  or just push to the dataArray
-   */
-});
-
-// /* Adding their own pages */
-// let projects = document.querySelectorAll('.projects');
-// projects.forEach((project, index) => {
-//   project.addEventListener('click', () => {
-//     fetch('/projects.json')
-//       .then((response) => response.json())
-//       .then((d) => {
-//         console.log(`${d[index].project} was clicked.`);
-//       });
-//   });
-// });
