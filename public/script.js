@@ -157,17 +157,10 @@ const showResults = (search) => {
       });
     } else {
       htmlLiteral = `
-      <div class="movements__row">
-      <div class="name" id="name">
-      ${"Undefined Name"}
-      </div>
-      <div class="position" id="position">
-      ${"Undefined Position"}
-      </div>
-      <div class="status" id="position">
-      ${"Undefined Status"}
-      </div>
-      </div>
+      <div class = 'add-employee'>
+      <h2>Uh oh, no matching employees!</h2> 
+      <h6> Try again, check the retired employees page, or add an employee!</h6>
+    </div>
       `;
     }
     employeeContainerMovement.innerHTML = htmlLiteral;

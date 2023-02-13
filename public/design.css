@@ -101,9 +101,9 @@ nav .p button {
   font-size: 15px;
 }
 .adjust {
-  display: flex;
+   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; 
   margin-top: 50px;
   margin-left: 50px;
 }
@@ -208,15 +208,41 @@ main {
 }
 
 @media screen and (max-width: 1000px) {
-  .movements__row {
-    padding: 2.25rem 4rem;
-    grid-template-columns: none;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border-bottom: 1px solid #eee;
+
+  .movements {
+    background-color: #fff;
+    box-shadow: 0 0 15px rgb(129, 129, 129);
+    border-radius: 1rem;
+    overflow-y: scroll;
+    text-transform: uppercase;
+    margin-left: 60px;
   }
+
+  .movements__row {
+    padding: 2.25rem 3rem;
+    grid-template-columns: 1fr;
+  }
+
+  .movements__row .status {
+    font-size: 10px;
+  }
+
+  main {
+    margin: 50px;
+    grid-template-rows: auto repeat(2, 12rem) auto;
+
+  }
+
+  .add-container {
+    margin: 60px 40px 0px 40px;
+  }
+
+  .adjust {
+    display: inline;
+    
+ }
+
+ 
   .status {
     margin: auto;
   }
@@ -227,12 +253,14 @@ main {
 }
 
 .projects {
-  margin: 90px;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 40px;
   font-size: 20px;
-  background-color: rgb(146, 146, 174, 0.6);
+  background-color: rgba(192, 192, 198, 0.6);
   padding: 30px 90px 30px 90px;
   border-radius: 5px;
-  box-shadow: 0 0 5px rgba(25, 25, 30, 0.6);
+  box-shadow: 0 0 5px rgba(64, 64, 71, 0.6);
 }
 .project-name {
   text-align: left;
