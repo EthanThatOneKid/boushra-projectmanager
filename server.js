@@ -84,18 +84,23 @@ app.post('/project', (req, res) => {
 
 app.get('/project/:id', (req, res) => {
   const id = req.params.id;
+  let project;
   try {
-    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
+    const projects = JSON.parse(fs.readFileSync('./public/projects.json'));
+
+    // Find the project with the matching ID
+    project = projects.find(p => p.id === id);
   } catch (err) {
     console.error(err);
   }
 
   res.render('projects.ejs', {
     title: 'Projects',
-    renderingProjects: renderingProjects,
+    project: project,
     id: id,
   });
 });
+
 
 app.post('/project/', (req, res) => {
   /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the projects.json */

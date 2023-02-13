@@ -182,6 +182,16 @@ search.addEventListener('input', (e) => {
 });
 
 
+/* UI Bar */
+
+let clickable = document.querySelector('.clickcable');
+let navBar = document.querySelector('ul');
+clickable.addEventListener('click', (e) => {
+  e.preventDefault();
+  navBar.style.display = (navBar.style.display === 'none') ? 'inline' : 'none';
+});
+
+
 
 // /* Adding their own pages */
 // let projects = document.querySelectorAll('.projects');

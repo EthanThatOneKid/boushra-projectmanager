@@ -44,7 +44,7 @@
       <%  if(renderingProjects.length > 0) {%>
       <% for(let i = 0; i < renderingProjects.length; i++) { %>
         <div class = 'projects'>
-        <!-- <a href="/project/<%= renderingProjects[i].id %>"> -->
+        <a href="/project/<%= renderingProjects[i].id %>">
         <h3 class="project-name"><%= renderingProjects[i].project %></h3>
         <div class = 'description-container'>
         <p class="author"><%= renderingProjects[i].name %></p>
@@ -53,7 +53,7 @@
       </div>
       <h5 class="description"><%= renderingProjects[i].desc %></h5>
       </div>
-    <!-- </a> -->
+    </a>
   </div>
       <% } %>
       <% } else { %>
