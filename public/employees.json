@@ -1,1 +1,12 @@
-[{"employee":"shayin billah","position":"civil engineer","status":"currently working"},{"employee":"djamel bettir","position":"physician assistant","status":"currently working"}]
+[
+  {
+    "employee": "shayin billah",
+    "position": "civil engineer",
+    "status": "currently working"
+  },
+  {
+    "employee": "djamel bettir",
+    "position": "physician assistant",
+    "status": "currently working"
+  }
+]
