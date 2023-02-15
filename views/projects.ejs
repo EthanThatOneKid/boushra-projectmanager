@@ -1,69 +1,92 @@
 <html>
   <head>
     <%- include('./partials/fonts.ejs')%>
+    <link rel="stylesheet" type="text/css" href="/design.css" />
   </head>
   <body>
     <%- include('./partials/header.ejs')%>
     <div id="nav"><%- include('./partials/navigate.ejs')%></div>
 
-    <div class="project-output">
+    <%= renderingProjects.project %>
+
+    <div class="pomo-timer">
+      <div class="timer-holder">
+        <div class="timer">
+          <h2 class="minutes">00</h2>
+          <h2>:</h2>
+          <h2 class="seconds">00</h2>
+        </div>
+        <button class="start">Start</button>
+        <button class="end">Stop</button>
+      </div>
+    </div>
+
+    <div class="projects-all-output">
       <div class="to-do-container">
         <h1>Create Your To-Do's!</h1>
         <form>
           <input
             type="text"
             name="task"
-            placeholder="Create..."
-            size="30"
+            placeholder="Task Name"
             required
-          />
-          <br />
-          <input
-            type="text"
-            name="description"
-            placeholder="Describe..."
-            size="30"
-            required
-          />
-          <br />
-          <button type="submit">Submit</button>
+          /><br />
+          <input type="text" name="desc" placeholder="Description" required />
+          <button type="submit">Add A Task</button>
         </form>
       </div>
     </div>
-    <!-- <script>
+
+    <script>
+      let timerOutput = document.querySelector('h2');
+      let startBtn = document.querySelector('.start');
+      let stopBtn = document.querySelector('.end');
       let form = document.querySelector('form');
+
+      let minutesOutput = document.querySelector('.minutes');
+      let minutes = 0;
+      let secondsOutput = document.querySelector('.seconds');
+      let seconds = 0;
+      let timer;
+
+      startBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        timer = setInterval(() => {
+          seconds++;
+          if (minutes.length == 1) {
+            minutes = 0 + minutes;
+          } else {
+            minutes = minutes;
+          }
+          if (seconds === 60) {
+            seconds = 00;
+            minutes += 1;
+          }
+
+          minutesOutput.innerHTML = minutes;
+          secondsOutput.innerHTML = seconds.toString().padStart(2, '0');
+          console.log(`Timer: ${minutes} minutes and ${seconds} seconds`);
+        }, 1000);
+      });
+
+      stopBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        clearInterval(timer);
+      });
+
       form.addEventListener('submit', (e) => {
         e.preventDefault();
-        let formData = new FormData(form);
-        let data = Object.fromEntries(formData);
-        fetch('http://localhost:3000/project/', {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        fetch('http://localhost:3000/project/:id/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(data).toLowerCase(),
         });
-        console.log('button clicked');
-        console.log(data);
       });
-    </script> -->
-
-    <style>
-      * {
-        margin: 10px;
-      }
-      .project-output {
-        display: flex;
-        justify-content: center;
-        font-size: 30px;
-      }
-      .to-do-container {
-        background-color: rgb(110, 112, 139);
-        text-align: center;
-        padding: 45px 150px 550px 150px;
-        border-radius: 15px;
-        box-shadow: 0 0 10px gray;
-      }
-    </style>
+    </script>
   </body>
 </html>

@@ -24,8 +24,18 @@ app.use(express.static('public'));
 // ConnectionMongo();
 let renderingProjects;
 let renderingEmployees;
-let renderingTasks = [];
 app.listen(3000);
+
+// app.get('/', (req, res) => {
+//   res.render('loginpage', {
+//     title: 'Login',
+//   });
+// });
+
+// app.post('/logged', (req, res) => {
+//   /* Add in the post request server side */
+//   res.redirect('index');
+// });
 
 app.get('/', (req, res) => {
   /* We are reading the contents and then rendering all to the front end */
@@ -73,7 +83,9 @@ app.post('/project', (req, res) => {
   const newProject = {
     ...req.body,
     id: Date.now(),
+    date: new Date().toLocaleDateString('en-US'),
   };
+
   renderingProjects.push(newProject);
   fs.writeFileSync(
     './public/projects.json',
@@ -82,39 +94,51 @@ app.post('/project', (req, res) => {
   );
 });
 
+let projects;
+let project;
 app.get('/project/:id', (req, res) => {
   const id = req.params.id;
+  let renderingProjects;
   try {
-    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
+    projects = JSON.parse(fs.readFileSync('./public/projects.json'));
+    project = projects.find((elem) => elem.id === id);
+    renderingProjects = projects;
   } catch (err) {
-    console.error(err);
+    console.log(err);
   }
 
   res.render('projects.ejs', {
     title: 'Projects',
-    renderingProjects: renderingProjects,
     id: id,
+    renderingProjects,
   });
 });
-
-app.post('/project/', (req, res) => {
-  /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the projects.json */
+let tasks = [];
+app.get('/project/:id/', (req, res) => {
   try {
-    /* Reading file first in order to create a new updated Project, (looking at the contents) */
-    renderingTasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
+    tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
+    res.render('projects.ejs', {
+      title: 'Projects',
+      tasks: tasks,
+    });
   } catch (err) {
-    console.error(err);
+    console.log(err);
   }
-  const task = {
-    ...req.body,
-    id: Date.now(),
-  };
-  renderingTasks.push(task);
-  fs.writeFileSync(
-    './public/tasks.json',
-    JSON.stringify(renderingTasks),
-    'utf-8'
-  );
+});
+
+app.post('/project/:id', (req, res) => {
+  try {
+    const newTask = {
+      ...req.body,
+      id: Date.now(),
+    };
+    tasks.push(newTask);
+    fs.writeFileSync('./public/tasks.json', JSON.stringify(tasks), 'utf-8');
+    res.status(200).send('Task added successfully');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Error adding task');
+  }
 });
 
 // app.get(`/`, async (req, res) => {
