@@ -82,45 +82,39 @@ app.post('/project', (req, res) => {
   );
 });
 
+let projects;
+let project;
 app.get('/project/:id', (req, res) => {
   const id = req.params.id;
-  let project;
-  try {
-    const projects = JSON.parse(fs.readFileSync('./public/projects.json'));
-
-    // Find the project with the matching ID
-    project = projects.find(p => p.id === id);
-  } catch (err) {
-    console.error(err);
-  }
+  let renderingProjects;
+try{
+     projects = JSON.parse(fs.readFileSync('./public/projects.json'));
+      project = projects.find(elem => elem.id === id);
+    renderingProjects = projects;
+} catch (err) {
+  console.log(err);
+}
 
   res.render('projects.ejs', {
     title: 'Projects',
-    project: project,
     id: id,
+    renderingProjects
   });
 });
 
-
-app.post('/project/', (req, res) => {
-  /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the projects.json */
+app.post('/project/:id', (req, res) => {
   try {
-    /* Reading file first in order to create a new updated Project, (looking at the contents) */
-    renderingTasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
+    const tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
+    const newTask = req.body;
+    tasks.push(newTask);
+    fs.writeFileSync('./public/tasks.json', JSON.stringify(tasks), 'utf-8');
+    res.status(200).send('Task added successfully');
   } catch (err) {
-    console.error(err);
+    console.log(err);
+    res.status(500).send('Error adding task');
   }
-  const task = {
-    ...req.body,
-    id: Date.now(),
-  };
-  renderingTasks.push(task);
-  fs.writeFileSync(
-    './public/tasks.json',
-    JSON.stringify(renderingTasks),
-    'utf-8'
-  );
 });
+
 
 // app.get(`/`, async (req, res) => {
 //   const projectname = req.params.projectname;

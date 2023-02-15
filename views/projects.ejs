@@ -1,69 +1,36 @@
 <html>
-  <head>
+  <head> 
     <%- include('./partials/fonts.ejs')%>
+    <link rel="stylesheet" type="text/css" href="/design.css">
+
   </head>
   <body>
     <%- include('./partials/header.ejs')%>
     <div id="nav"><%- include('./partials/navigate.ejs')%></div>
-    <%= project.project %>
-    <div class="project-output">
+
+    <%= renderingProjects.project %>
+
+      <div class = 'pomo-timer'>
+        <div class = 'timer-holder'>
+          <h2> 00:00 </h2>
+          <button class = 'start'> Start </button>
+          <button class = 'end'> Stop</button>
+        </div>
+      </div>
+
+    <div class="projects-all-output">
       <div class="to-do-container">
         <h1>Create Your To-Do's!</h1>
         <form>
-          <input
-            type="text"
-            name="task"
-            placeholder="Create..."
-            size="30"
-            required
-          />
-          <br />
-          <input
-            type="text"
-            name="description"
-            placeholder="Describe..."
-            size="30"
-            required
-          />
-          <br />
-          <button type="submit">Submit</button>
-        </form>
+          <input type = 'text' placeholder = 'Task Name' required /><br/>
+          <input type = 'text'  placeholder = 'Description' required />
+        </form> 
       </div>
     </div>
-    <!-- <script>
-      let form = document.querySelector('form');
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        let formData = new FormData(form);
-        let data = Object.fromEntries(formData);
-        fetch('http://localhost:3000/project/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data).toLowerCase(),
-        });
-        console.log('button clicked');
-        console.log(data);
-      });
-    </script> -->
+  
+    <script>
+      
+    </script>
 
-    <style>
-      * {
-        margin: 10px;
-      }
-      .project-output {
-        display: flex;
-        justify-content: center;
-        font-size: 30px;
-      }
-      .to-do-container {
-        background-color: rgb(110, 112, 139);
-        text-align: center;
-        padding: 45px 150px 550px 150px;
-        border-radius: 15px;
-        box-shadow: 0 0 10px gray;
-      }
-    </style>
   </body>
 </html>
