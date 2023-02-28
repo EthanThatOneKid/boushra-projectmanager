@@ -24,7 +24,6 @@ app.use(express.static('public'));
 // ConnectionMongo();
 let renderingProjects;
 let renderingEmployees;
-let renderingTasks = [];
 app.listen(3000);
 
 // app.get('/', (req, res) => {
@@ -189,6 +188,18 @@ app.get('/project/:id', (req, res) => {
     project,
     title: 'Project' });
 });
+let tasks = [];
+app.get('/project/:id/', (req, res) => {
+  try {
+    tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
+    res.render('projects.ejs', {
+      title: 'Projects',
+      tasks: tasks,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 // app.post('/', (req, res) => {
 //   let id = req.params.id;
@@ -203,8 +214,6 @@ app.get('/project/:id', (req, res) => {
    
 //   }
 // });
-
-
 // app.get(`/`, async (req, res) => {
 //   const projectname = req.params.projectname;
 //   fetch('./public/projects.json')

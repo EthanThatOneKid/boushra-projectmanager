@@ -115,12 +115,26 @@ employeeForm.addEventListener('submit', (e) => {
   });
 });
 
-
 projectForm.addEventListener('submit', (e) => {
   const formData = new FormData(projectForm);
   const data = Object.fromEntries(formData);
 
   fetch('http://localhost:3000/project', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data).toLowerCase(),
+  });
+});
+
+let loginForm = document.querySelector('.login');
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(loginForm);
+  const data = Object.entries(formData);
+
+  fetch('http://localhost:3000/logged', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -139,9 +153,9 @@ const showResults = (search) => {
         element.employee.includes(search.value)
       );
       let htmlLiteral = '';
-      if(filteredData.length > 0) {
-      filteredData.forEach((element) => {
-        htmlLiteral += `
+      if (filteredData.length > 0) {
+        filteredData.forEach((element) => {
+          htmlLiteral += `
         <div class="movements__row">
         <div class="name" id="name">
         ${element.employee}
@@ -154,17 +168,16 @@ const showResults = (search) => {
         </div>
         </div>
         `;
-      });
-    } else {
-      htmlLiteral = `
+        });
+      } else {
+        htmlLiteral = `
       <div class = 'add-employee'>
       <h2>Uh oh, no matching employees!</h2> 
       <h6> Try again, check the retired employees page, or add an employee!</h6>
     </div>
       `;
-    }
-    employeeContainerMovement.innerHTML = htmlLiteral;
-
+      }
+      employeeContainerMovement.innerHTML = htmlLiteral;
     });
 };
 
@@ -177,14 +190,13 @@ search.addEventListener('input', (e) => {
   showResults(search);
 });
 
-
 /* UI Bar */
 
 let clickable = document.querySelector('.clickcable');
 let navBar = document.querySelector('ul');
 clickable.addEventListener('click', (e) => {
   e.preventDefault();
-  navBar.style.display = (navBar.style.display === 'none') ? 'inline' : 'none';
+  navBar.style.display = navBar.style.display === 'none' ? 'inline' : 'none';
 });
 
 // let user_form = document.querySelector('.user_form');
