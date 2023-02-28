@@ -2,35 +2,54 @@
   <head> 
     <%- include('./partials/fonts.ejs')%>
     <link rel="stylesheet" type="text/css" href="/design.css">
+    
 
   </head>
   <body>
     <%- include('./partials/header.ejs')%>
     <div id="nav"><%- include('./partials/navigate.ejs')%></div>
 
-    <%= renderingProjects.project %>
-
-      <div class = 'pomo-timer'>
-        <div class = 'timer-holder'>
-          <h2> 00:00 </h2>
-          <button class = 'start'> Start </button>
-          <button class = 'end'> Stop</button>
-        </div>
-      </div>
-
+    <div class = 'specific_total'>
+    <p class = 'specific_project'><%= project.project %></p>
+    <p class = 'specific_worker'> Current Workers on project: <span> <%= project.name %></span></p>
+  </div>
+    
+  
+   
     <div class="projects-all-output">
       <div class="to-do-container">
-        <h1>Create Your To-Do's!</h1>
-        <form>
-          <input type = 'text' placeholder = 'Task Name' required /><br/>
-          <input type = 'text'  placeholder = 'Description' required />
-        </form> 
+        <h1>All Current To-Do's!</h1>
+        
       </div>
     </div>
   
     <script>
+
       
+
+    let form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      let formData = new FormData(form);
+      let data = Object.entries(formData);
+      fetch(`http://localhost:3000/project/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      console.log(data)
+    });
+
+
     </script>
 
+    <style>
+      .p {
+        opacity: 0;
+  
+      }
+    </style>
   </body>
 </html>

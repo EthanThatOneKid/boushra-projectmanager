@@ -168,6 +168,9 @@ const showResults = (search) => {
     });
 };
 
+
+
+
 let employeeContainer = document.querySelector('.movements');
 let search = document.querySelector('.search-bar');
 search.addEventListener('input', (e) => {
@@ -183,6 +186,61 @@ clickable.addEventListener('click', (e) => {
   e.preventDefault();
   navBar.style.display = (navBar.style.display === 'none') ? 'inline' : 'none';
 });
+
+// let user_form = document.querySelector('.user_form');
+// let username = document.querySelector('.username_input');
+// let code_input = document.querySelector('.code_input');
+
+// user_form.addEventListener('submit', (e) => {
+//   e.preventDefault();
+//   console.log('submitted')
+// })
+
+
+// let company_output = document.querySelector('.company_output');
+// fetch('./users.json')
+//   .then((response) => response.json())
+//   .then((data) => {
+//     data.forEach((company) => {
+//       // Create a unique username based on the company name
+//       const username = company.companyName.toLowerCase().replace(/\s/g, '');
+
+//       // Add the username property to the company object
+//       company.username = username;
+
+//       // Display the company object in the DOM
+//       const companyDiv = document.createElement('div');
+//       companyDiv.innerHTML = `
+//         <h2>${company.companyName}</h2>
+//         <p>Username: ${company.username}</p>
+//         <p>Passcode: ${company.passcode}</p>
+//       `;
+//       company_output.appendChild(companyDiv);
+//     });
+//   });
+
+
+
+
+/*
+
+if(companyInput.value.length > 0) {
+      let randomPin = Math.random();
+      outputCompanyCode.textContent = randomPin;
+      console.log(randomPin);
+     
+    }
+
+
+
+
+- Make sure the length of the valye is > 0
+- remove the sign i nstuff
+- Generate the pin code
+- ok button
+  - it puts them to the homepage
+`
+*/
 
 
 

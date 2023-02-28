@@ -1,12 +1,22 @@
 <html>
   <head> 
     <%- include('./partials/fonts.ejs')%>
+   
   </head>
   <body>
     <%- include('./partials/header.ejs')%>
     <div id="nav"><%- include('./partials/navigate.ejs')%></div>
+   
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <canvas id=" myChart"></canvas> -->
+
+    <h1 class = 'company_output'></h1>
     <!-- <p>Total Count: <span></span></p> -->
     <p class = 'title-section'> Employees </p>
+    <!-- <select>
+      <option class = 'current'> Current Employees </option>
+      <option class = 'retired'> Retired Employees </option>
+    </select> -->
     <input class = 'search-bar' value = '' size = '50' placeholder="Input employee name..." type = 'search' />
    <div class = 'adjust'>
     <main>
@@ -50,6 +60,8 @@
         <p class="author"><%= renderingProjects[i].name %></p>
         <p>●</p>
         <p class="amount"><%= renderingProjects[i].money %></p>
+        <p>●</p>
+        <p class="amount"><%= renderingProjects[i].date %></p>
       </div>
       <h5 class="description"><%= renderingProjects[i].desc %></h5>
       </div>
@@ -147,5 +159,6 @@
 
     <script src="script.js"></script>
     <script src="employees.js"></script>
+    
   </body>
 </html>

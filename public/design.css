@@ -294,18 +294,19 @@ main {
 }
 
 .modal {
+  font-family: 'PT Serif', sans-serif;
+  color: rgb(61, 57, 57);
   background-color: rgb(205, 205, 212);
   border-radius: 10px;
-  padding: 60px;
+  padding: 70px;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
   position: absolute;
-
   text-align: center;
   z-index: 15;
-  font-size: 30px;
+  font-size: 20px;
   margin: 0 auto;
   left: 50%;
-  top: 50%;
+  top: 70%;
   transform: translate(-50%, -50%);
   align-items: center;
 }
@@ -369,4 +370,19 @@ main {
   background-color: rgb(173, 118, 118);
   margin: 0px 40px 0px 40px;
   padding: 20px;
+}
+
+.specific_total {
+  background-color: #5f3232;
+  margin: 0 90px 50px 90px;
+  padding: 20px;
+  text-align: center;
+  font-size: 20px;
+}
+.specific_project {
+  text-transform: uppercase;
+}
+
+.specific_worker span {
+  text-transform: uppercase;
 }

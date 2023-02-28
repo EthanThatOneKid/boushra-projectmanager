@@ -27,11 +27,99 @@ let renderingEmployees;
 let renderingTasks = [];
 app.listen(3000);
 
+// app.get('/', (req, res) => {
+//   res.render('signup', {
+//     title: 'SignUp'
+//   })
+// });
+
+// let company_name;
+// app.post('/', (req, res) => {
+//   try {
+//     company_name = JSON.parse(fs.readFileSync('./public/users.json'))
+//   } catch (err) {
+//     console.log(err);
+//   }
+
+//   company_name.push(req.body);
+//   fs.writeFileSync(
+//     './public/users.json',
+//     JSON.stringify(company_name),
+//     'utf-8'
+//   );
+
+// })
+
+let companyNames = [];
+
 app.get('/', (req, res) => {
+  try {
+    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
+  } catch (err) {
+    console.log(err);
+  }
+  res.render('signup', {
+    title: "SignUp",
+    companyNames
+  })
+})
+/*
+
+Random Generator
+
+*/
+
+let Passcode = (length) => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+const companies = {};
+
+app.post('/', (req, res) => {
+  try {
+    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
+  } catch (err) {
+    console.log(err);
+  }
+
+  // Create new company object
+  const newCompany = {
+    companyName: req.body.companyName,
+    passcode: Passcode(6),
+    employees: [],
+    projects: []
+  };
+  
+  // Add new company to companies object
+  companies[newCompany.companyName] = newCompany;
+
+  // Add new company to companyNames array
+  companyNames.push(newCompany);
+
+  // Save updated companyNames array to users.json file
+  fs.writeFileSync(
+    './public/users.json',
+    JSON.stringify(companyNames),
+    'utf-8'
+  );
+
+  res.redirect('/:id');
+});
+
+
+
+app.get('/:id', (req, res) => {
+  let id = req.params.companyName;
   /* We are reading the contents and then rendering all to the front end */
   try {
     renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
     renderingEmployees = JSON.parse(fs.readFileSync('./public/employees.json'));
+    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
   } catch (err) {
     console.log(err);
   }
@@ -42,6 +130,7 @@ app.get('/', (req, res) => {
     title: 'Homepage',
     renderingProjects,
     renderingEmployees,
+    companyNames
   });
 });
 
@@ -70,10 +159,13 @@ app.post('/project', (req, res) => {
   } catch (err) {
     console.error(err);
   }
+
   const newProject = {
     ...req.body,
     id: Date.now(),
+    date: new Date().toLocaleDateString('en-US')
   };
+
   renderingProjects.push(newProject);
   fs.writeFileSync(
     './public/projects.json',
@@ -82,38 +174,35 @@ app.post('/project', (req, res) => {
   );
 });
 
-let projects;
-let project;
-app.get('/project/:id', (req, res) => {
-  const id = req.params.id;
-  let renderingProjects;
-try{
-     projects = JSON.parse(fs.readFileSync('./public/projects.json'));
-      project = projects.find(elem => elem.id === id);
-    renderingProjects = projects;
-} catch (err) {
-  console.log(err);
+
+
+const loadProjectData = (id) => {
+  const projectsData = JSON.parse(fs.readFileSync('./public/projects.json'));
+  const projectData = projectsData.find(p => p.id === Number(id));
+  return projectData;
 }
 
-  res.render('projects.ejs', {
-    title: 'Projects',
-    id: id,
-    renderingProjects
-  });
+app.get('/project/:id', (req, res) => {
+  let id = req.params.id;
+  let project = loadProjectData(id);
+  res.render('projects', { 
+    project,
+    title: 'Project' });
 });
 
-app.post('/project/:id', (req, res) => {
-  try {
-    const tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
-    const newTask = req.body;
-    tasks.push(newTask);
-    fs.writeFileSync('./public/tasks.json', JSON.stringify(tasks), 'utf-8');
-    res.status(200).send('Task added successfully');
-  } catch (err) {
-    console.log(err);
-    res.status(500).send('Error adding task');
-  }
-});
+// app.post('/', (req, res) => {
+//   let id = req.params.id;
+//   try {
+//     const tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
+//     const newTask = res.body;
+//     tasks.push(newTask);
+//     fs.writeFileSync('./public/tasks.json', JSON.stringify(tasks), 'utf-8');
+    
+//   } catch (err) {
+//     console.log(err);
+   
+//   }
+// });
 
 
 // app.get(`/`, async (req, res) => {

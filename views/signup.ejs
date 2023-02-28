@@ -1,0 +1,53 @@
+<body>
+    
+    <form type = 'submit' class = 'user_form'>
+        <label> Company Name </label>
+        <input type = 'text' name = 'companyName' value = "" class = 'username_input' required />
+        <a href="/homepage/<%= companyNames.companyName %>">
+        <button type = 'submit' class = 'submit'> Submit </button>
+        </a>
+        <h3></h3>
+    </form>
+
+    <!-- 
+        So once the button is clicked we should show the 
+        code
+
+    -->
+   
+    <script>
+    let form = document.querySelector('form');
+    let button = document.querySelector('button');
+    let company_name = document.querySelector('input');
+    let output = document.querySelector('h3');
+
+    form.addEventListener('submit', (e) => {
+  e.preventDefault();
+   
+  let formData = new FormData(form);
+  let data = Object.fromEntries(formData.entries());
+  console.log(data);
+  fetch('http://localhost:3000/homepage/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then((response) => {
+    console.log(response);
+    response.json();
+}
+    )
+  .then((data) => {
+    console.log(data); // Check if the data is being received properly
+    window.location.href = '/homepage'; // Redirect to homepage
+  });
+
+  
+});
+
+
+ 
+    </script>
+</body>
