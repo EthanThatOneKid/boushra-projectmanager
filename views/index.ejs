@@ -1,6 +1,7 @@
 <html>
   <head> 
     <%- include('./partials/fonts.ejs')%>
+    <link rel="stylesheet" type="text/css" href="/design.css">
    
   </head>
   <body>
@@ -9,8 +10,7 @@
    
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <canvas id=" myChart"></canvas> -->
-
-    <h1 class = 'company_output'></h1>
+    <label></label>
     <!-- <p>Total Count: <span></span></p> -->
     <p class = 'title-section'> Employees </p>
     <!-- <select>
@@ -92,7 +92,6 @@
         </h3>
         <h3> Employee Name : </h3>
         <select  name = "name" required>
-          
           <% for (let i = 0; i < renderingEmployees.length; i++) { %>
           <option>
             <%= renderingEmployees[i].employee %>
@@ -157,8 +156,7 @@
     </div>
     <div class="overlay locationOverlay hidden"></div>
 
-    <script src="script.js"></script>
-    <script src="employees.js"></script>
+    <script src="/script.js"></script>
     
   </body>
 </html>

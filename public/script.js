@@ -134,7 +134,7 @@ loginForm.addEventListener('submit', (e) => {
   const formData = new FormData(loginForm);
   const data = Object.entries(formData);
 
-  fetch('http://localhost:3000/logged', {
+  fetch('http://localhost:3000/homepage/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -8,6 +8,7 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
+
 // /* Ignore the MONGODB, I will use this later! */
 // const mongoDB =
 //   'mongodb+srv://BoushraBlog:boushrabettir@projectmanager.np7shhg.mongodb.net/blogs?retryWrites=true&w=majority';
@@ -26,28 +27,12 @@ let renderingProjects;
 let renderingEmployees;
 app.listen(3000);
 
-// app.get('/', (req, res) => {
-//   res.render('signup', {
-//     title: 'SignUp'
-//   })
-// });
 
-// let company_name;
-// app.post('/', (req, res) => {
-//   try {
-//     company_name = JSON.parse(fs.readFileSync('./public/users.json'))
-//   } catch (err) {
-//     console.log(err);
-//   }
-
-//   company_name.push(req.body);
-//   fs.writeFileSync(
-//     './public/users.json',
-//     JSON.stringify(company_name),
-//     'utf-8'
-//   );
-
-// })
+const LoadData = (fileName, id) => {
+  const data = JSON.parse(fs.readFileSync(`./public/${fileName}.json`));
+  const projectData = data.find(p => p.id === Number(id));
+  return projectData;
+}
 
 let companyNames = [];
 
@@ -58,7 +43,7 @@ app.get('/', (req, res) => {
     console.log(err);
   }
   res.render('signup', {
-    title: "SignUp",
+    title: "Sign Up",
     companyNames
   })
 })
@@ -77,43 +62,27 @@ let Passcode = (length) => {
   return result;
 }
 
-const companies = {};
-
-app.post('/', (req, res) => {
+app.post('/homepage/:id', (req, res) => {
   try {
-    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
+    let companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
   } catch (err) {
     console.log(err);
   }
 
-  // Create new company object
   const newCompany = {
-    companyName: req.body.companyName,
+    ...req.body,
     passcode: Passcode(6),
-    employees: [],
-    projects: []
+    id: req.params.id,
   };
   
-  // Add new company to companies object
-  companies[newCompany.companyName] = newCompany;
-
-  // Add new company to companyNames array
   companyNames.push(newCompany);
-
-  // Save updated companyNames array to users.json file
-  fs.writeFileSync(
-    './public/users.json',
-    JSON.stringify(companyNames),
-    'utf-8'
-  );
-
-  res.redirect('/:id');
+  fs.writeFileSync('./public/users.json', JSON.stringify(companyNames), 'utf-8');
+  res.redirect(`/homepage/${req.params.id}`); 
 });
 
 
-
-app.get('/:id', (req, res) => {
-  let id = req.params.companyName;
+app.get('/homepage/:id', (req, res) => {
+  let id = req.params.id;
   /* We are reading the contents and then rendering all to the front end */
   try {
     renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
@@ -129,7 +98,7 @@ app.get('/:id', (req, res) => {
     title: 'Homepage',
     renderingProjects,
     renderingEmployees,
-    companyNames
+    companyNames,
   });
 });
 
@@ -175,19 +144,15 @@ app.post('/project', (req, res) => {
 
 
 
-const loadProjectData = (id) => {
-  const projectsData = JSON.parse(fs.readFileSync('./public/projects.json'));
-  const projectData = projectsData.find(p => p.id === Number(id));
-  return projectData;
-}
-
 app.get('/project/:id', (req, res) => {
   let id = req.params.id;
-  let project = loadProjectData(id);
+  let project = LoadData("project", id);
   res.render('projects', { 
     project,
     title: 'Project' });
 });
+
+
 let tasks = [];
 app.get('/project/:id/', (req, res) => {
   try {
