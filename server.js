@@ -7,51 +7,16 @@ const app = express();
 app.use(express.json());
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-
-
-// /* Ignore the MONGODB, I will use this later! */
-// const mongoDB =
-//   'mongodb+srv://BoushraBlog:boushrabettir@projectmanager.np7shhg.mongodb.net/blogs?retryWrites=true&w=majority';
-// async function ConnectionMongo() {
-//   try {
-//     await mongoose.connect(mongoDB);
-//     app.listen(3000); //infers local host
-//     console.log('connected to mongo');
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-// ConnectionMongo();
-let renderingProjects;
-let renderingEmployees;
 app.listen(3000);
 
-
-const LoadData = (fileName, id) => {
-  const data = JSON.parse(fs.readFileSync(`./public/${fileName}.json`));
-  const projectData = data.find(p => p.id === Number(id));
-  return projectData;
-}
-
+/* Variables  */
+let renderingProjects;
+let renderingEmployees;
 let companyNames = [];
+let tasks = [];
 
-app.get('/', (req, res) => {
-  try {
-    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
-  } catch (err) {
-    console.log(err);
-  }
-  res.render('signup', {
-    title: "Sign Up",
-    companyNames
-  })
-})
-/*
+/* Functions */
 
-Random Generator
-
-*/
 
 let Passcode = (length) => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -62,9 +27,29 @@ let Passcode = (length) => {
   return result;
 }
 
+
+/* Server Side Logic */
+app.get('/', (req, res) => {
+  try {
+    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
+  } catch (err) {
+    console.log(err);
+  }
+  res.render('signup', {
+    title: "Sign Up",
+    companyNames
+  })
+});
+
+app.get('/login', (req, res) => {
+  res.render('loginpage', {
+    title: "Login",
+  });
+});
+
 app.post('/homepage/:id', (req, res) => {
   try {
-    let companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
+   companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
   } catch (err) {
     console.log(err);
   }
@@ -91,13 +76,28 @@ app.get('/homepage/:id', (req, res) => {
   } catch (err) {
     console.log(err);
   }
+
+  const renderingFiltered = renderingEmployees.filter(element => {
+    return element.id === id;
+  });
+
+  let renderingFilteredProjects = renderingProjects.filter(element => {
+    return element.companyid === id;
+  });
+
+
   renderingProjects.reverse();
   renderingEmployees.reverse();
+  renderingFiltered.reverse();
+  
 
   res.render('index', {
     title: 'Homepage',
     renderingProjects,
     renderingEmployees,
+    renderingEmployees,
+    renderingFiltered,
+    renderingFilteredProjects,
     companyNames,
   });
 });
@@ -111,6 +111,7 @@ app.post('/employee', (req, res) => {
     console.error(err);
   }
   renderingEmployees.push(req.body);
+
   fs.writeFileSync(
     './public/employees.json',
     JSON.stringify(renderingEmployees),
@@ -118,7 +119,7 @@ app.post('/employee', (req, res) => {
   );
 });
 
-// let id = 1;
+
 app.post('/project', (req, res) => {
   /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the projects.json */
   try {
@@ -145,16 +146,22 @@ app.post('/project', (req, res) => {
 
 
 app.get('/project/:id', (req, res) => {
-  let id = req.params.id;
-  let project = LoadData("project", id);
+  try {
+    /* Reading file first in order to create a new updated Project, (looking at the contents) */
+    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
+  } catch (err) {
+    console.log(err);
+  }
+
   res.render('projects', { 
-    project,
-    title: 'Project' });
+    renderingProjects,
+    title: 'Project' 
+  });
 });
 
 
-let tasks = [];
-app.get('/project/:id/', (req, res) => {
+
+app.get('/project/:id', (req, res) => {
   try {
     tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
     res.render('projects.ejs', {
@@ -165,29 +172,3 @@ app.get('/project/:id/', (req, res) => {
     console.log(err);
   }
 });
-
-// app.post('/', (req, res) => {
-//   let id = req.params.id;
-//   try {
-//     const tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
-//     const newTask = res.body;
-//     tasks.push(newTask);
-//     fs.writeFileSync('./public/tasks.json', JSON.stringify(tasks), 'utf-8');
-    
-//   } catch (err) {
-//     console.log(err);
-   
-//   }
-// });
-// app.get(`/`, async (req, res) => {
-//   const projectname = req.params.projectname;
-//   fetch('./public/projects.json')
-//     .then((response) => response.json())
-//     .then((d) => {
-//       const project = d.find((p) => p.project === projectname);
-//       if (!project) {
-//         return res.sendStatus(404);
-//       }
-//       res.render('projects', { project });
-//     });
-// });

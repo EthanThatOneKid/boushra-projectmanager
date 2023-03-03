@@ -102,16 +102,23 @@ employeeBtn.addEventListener('click', () => {
 });
 
 /* Attempting to use JSON before using MongoDB */
+const companyID = window.location.pathname.split('/').pop();
+console.log(companyID);
 /* Sending a POST request for the backend to use */
 employeeForm.addEventListener('submit', (e) => {
   let formData1 = new FormData(employeeForm);
   data = Object.fromEntries(formData1);
+  let newData = {
+    ...data,
+    id: companyID
+  };
+
   fetch('http://localhost:3000/employee', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data).toLowerCase(),
+    body: JSON.stringify(newData).toLowerCase(),
   });
 });
 
@@ -119,12 +126,17 @@ projectForm.addEventListener('submit', (e) => {
   const formData = new FormData(projectForm);
   const data = Object.fromEntries(formData);
 
+  let newData = {
+    ...data,
+    companyID: companyID
+  };
+console.log(`Company data is : ${newData.companyID}`)
   fetch('http://localhost:3000/project', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data).toLowerCase(),
+    body: JSON.stringify(newData).toLowerCase(),
   });
 });
 

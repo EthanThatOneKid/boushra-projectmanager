@@ -20,16 +20,21 @@
     <input class = 'search-bar' value = '' size = '50' placeholder="Input employee name..." type = 'search' />
    <div class = 'adjust'>
     <main>
+
+     
       <div class="movements">
-        <%  if(renderingEmployees.length > 0) {%>
-        <% for (let i = 0; i < renderingEmployees.length; i++) { %>
+        <%  if(renderingFiltered.length > 0) {%>
+        <% for (let i = 0; i < renderingFiltered.length; i++) { %>
+          <!-- employees.filter((item) => {
+            return item.id == "???"
+          }) -->
         <div class="movements__row">
-          <div class="name" id="name"><%= renderingEmployees[i].employee %></div>
+          <div class="name" id="name"><%= renderingFiltered[i].employee %></div>
           <div class="position" id="position">
-            <%= renderingEmployees[i].position %>
+            <%= renderingFiltered[i].position %>
           </div>
           <div class="status" id="position">
-            <%= renderingEmployees[i].status %>
+            <%= renderingFiltered[i].status %>
           </div>
         </div>
         <% } %>
@@ -47,23 +52,24 @@
       <button type="button" class="add">📄 Add A Project</button>
     </div>
   </div>
-    
+ 
+
   <p class = 'title-section'> Projects </p>
     <div class="all-projects">
       <!-- Using the name attributes from the json file to render in the EJS file -->
-      <%  if(renderingProjects.length > 0) {%>
-      <% for(let i = 0; i < renderingProjects.length; i++) { %>
+      <%  if(renderingFilteredProjects.length > 0) {%>
+      <% for(let i = 0; i < renderingFilteredProjects.length; i++) { %>
         <div class = 'projects'>
-        <a href="/project/<%= renderingProjects[i].id %>">
-        <h3 class="project-name"><%= renderingProjects[i].project %></h3>
+        <a href="/project/<%= renderingFilteredProjects[i].id %>">
+        <h3 class="project-name"><%= renderingFilteredProjects[i].project %></h3>
         <div class = 'description-container'>
-        <p class="author"><%= renderingProjects[i].name %></p>
+        <p class="author"><%= renderingFilteredProjects[i].name %></p>
         <p>●</p>
-        <p class="amount"><%= renderingProjects[i].money %></p>
+        <p class="amount"><%= renderingFilteredProjects[i].money %></p>
         <p>●</p>
-        <p class="amount"><%= renderingProjects[i].date %></p>
+        <p class="amount"><%= renderingFilteredProjects[i].date %></p>
       </div>
-      <h5 class="description"><%= renderingProjects[i].desc %></h5>
+      <h5 class="description"><%= renderingFilteredProjects[i].desc %></h5>
       </div>
     </a>
   </div>
@@ -92,9 +98,9 @@
         </h3>
         <h3> Employee Name : </h3>
         <select  name = "name" required>
-          <% for (let i = 0; i < renderingEmployees.length; i++) { %>
+          <% for (let i = 0; i < renderingFiltered.length; i++) { %>
           <option>
-            <%= renderingEmployees[i].employee %>
+            <%= renderingFiltered[i].employee %>
           </option>
           <% } %>
         </select>
