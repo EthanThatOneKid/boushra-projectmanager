@@ -1,18 +1,27 @@
 <head>
   <link rel="stylesheet" type="text/css" href="/design.css">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+
 </head>
 <body> 
-  <form type='submit' class='user_form'>
-    <label> Company Name </label>
-    <input type='text' name='companyName' value='' class='username_input' required />
-    <button type='submit' > Go to Dashboard </button>
-    <a href = ""> Login as an Employee </a>
+  <%- include('./partials/header.ejs')%>
+   
+  <form type='submit' class='employee_form'>
+    <div>
+    <h2> 📩 Promake </h2>
+    <label> Company Name </label> <br />
+    <input type='text' name='companyName' value='' class='username_input' required /> <br />
+    <button type='submit' > Go to Dashboard </button> <br />
+  </div>
   </form>
 
   
 
-   
+  <p class = 'employee_login_btn'> Not a Registered Company? <span><a href = "/signupemployee">Login as an Employee!</a></span></p>
+
+
     <script>
+
     let form = document.querySelector('form');
     let button = document.querySelector('button');
     let company_name = document.querySelector('input');
@@ -43,7 +52,7 @@
     let newData = {
       ...data,
       passcode: Passcode(6),
-      id: RandomID(5)
+      id: RandomID(10)
     };
     fetch(`http://localhost:3000/homepage/${newData.id}`, {
       method: 'POST',

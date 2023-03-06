@@ -399,11 +399,67 @@ main {
   text-transform: uppercase;
 }
 
-.user_form {
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
+
+
+.employee_form {
+  position: relative;
   height: 100vh;
-  background-color: #f2f2f2;
+
+}
+
+.employee_form div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  padding: 50px 0 50px 0;
+  background-color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  color: rgb(58, 57, 57);
+  box-shadow: 0 0 10px rgba(45, 45, 68, 0.746);
+  font-family: 'Kanit', sans-serif;
+}
+
+.employee_form label {
+  font-size: 15px;
+
+}
+
+.employee_form input{
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(45, 45, 68, 0.2);
+  font-size: 16px;
+}
+
+.employee_form button {
+  background: linear-gradient(161deg, rgba(59,55,117,1) 0%, rgba(123,111,187,1) 35%, rgba(151,149,207,1) 65%, rgba(60,57,135,1) 86%, rgba(61, 71, 128, 0.769) 100%);
+  border: none;
+  padding: 15px 30px;
+  color: rgb(255, 255, 255);
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 500ms ease;
+}
+
+.employee_form button:hover {
+  transform: scale(1.05);
+}
+
+
+.employee_form input {
+  border: none;
+  margin: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.employee_login_btn {
+  text-align: center;
 }

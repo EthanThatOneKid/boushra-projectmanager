@@ -125,7 +125,6 @@ employeeForm.addEventListener('submit', (e) => {
 projectForm.addEventListener('submit', (e) => {
   const formData = new FormData(projectForm);
   const data = Object.fromEntries(formData);
-
   let newData = {
     ...data,
     companyID: companyID
@@ -142,7 +141,6 @@ console.log(`Company data is : ${newData.companyID}`)
 
 let loginForm = document.querySelector('.login');
 loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
   const formData = new FormData(loginForm);
   const data = Object.entries(formData);
 
@@ -155,15 +153,20 @@ loginForm.addEventListener('submit', (e) => {
   });
 });
 
+/* funcition */
+
+
+
 /* This will be for the search bar */
 
 const showResults = (search) => {
   fetch('./employees.json')
     .then((response) => response.json())
     .then((data) => {
-      let filteredData = data.filter((element) =>
-        element.employee.includes(search.value)
-      );
+      let filteredData = data.filter((element) => {
+        element.employee.includes(search.value);
+
+      });
       let htmlLiteral = '';
       if (filteredData.length > 0) {
         filteredData.forEach((element) => {

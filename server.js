@@ -36,14 +36,14 @@ app.get('/', (req, res) => {
     console.log(err);
   }
   res.render('signup', {
-    title: "Sign Up",
+    title: "SignUp",
     companyNames
   })
 });
 
-app.get('/login', (req, res) => {
-  res.render('loginpage', {
-    title: "Login",
+app.get('/signupemployee', (req, res) => {
+  res.render('homepage_employee', {
+    title: "Login as Employee",
   });
 });
 
@@ -101,6 +101,61 @@ app.get('/homepage/:id', (req, res) => {
     companyNames,
   });
 });
+
+
+let employee_users = [];
+let loggedInUsername;
+
+
+app.post('/employee/:id', (req, res) => {
+  let id = req.params.id;
+  try {
+    employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
+    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
+  } catch (err) {
+    console.log(err);
+  }
+  
+  console.log(companyNames);
+  const foundCompany = companyNames.find(company => company.id === req.body.company_code);
+  console.log(foundCompany);
+
+  if(foundCompany) {
+   
+    employee_users.push(req.body);
+    fs.writeFileSync('./public/usernames.json', JSON.stringify(employee_users), 'utf-8');
+
+    // Get the username of the logged-in user (Thanks CHATGPT)
+    loggedInUsername = req.body.username;
+    res.redirect(`/employee/${req.body.id}?username=${loggedInUsername}`);
+  }  
+});
+
+
+app.get("/employee/:id", (req, res) => {
+  try {
+    employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
+    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
+
+    const loggedInEmployee = employee_users.find(employee => employee.username === req.params.id);
+    const loggedInCompany = companyNames.find(company => company.id === loggedInEmployee.company_code);
+
+    const loggedInUsername = loggedInEmployee.employee_name;
+
+    res.render('homepage_e', {
+      title: "Homepage",
+      employee_users,
+      loggedInUsername,
+      loggedInCompany
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
+
+
 
 app.post('/employee', (req, res) => {
   /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the employees.json */

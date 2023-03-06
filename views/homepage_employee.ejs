@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <%- include('./partials/fonts.ejs')%>
+    <link rel="stylesheet" type="text/css" href="/design.css">
+  </head>
+  <body>
+    <%- include('./partials/header.ejs')%>
+
+    <a class = 'btn' href = "/"> < </a>
+   <form type='submit' class='employee_form'>
+    <div>
+    <h2> 📩 Promake </h2>
+    <label> Employee Name </label> <br />
+    <input type='text' name='employee_name' value='' class='username_input_employee' required /> <br />
+    <label> Company Code Name </label> <br />
+    <input type='text' name='company_code' value='' class='company_code_input' required /> <br />
+    <button type='submit'> Sign Up </button> <br />
+    <label class = "note"> Please note your user name is automatically given with the first letters of your inputted name. For instance, "Sara Wilson" -> sw (all lowercase).</label>
+  </div>
+  </body>
+
+  <script>
+
+
+let RandomID = (length) => {
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += Math.trunc(Math.random() * 10);
+    }
+    return result;
+  }
+
+const CreateUsername = (names) => {
+  return names.toLowerCase().split(' ').map(name => name[0]).join('');
+}
+
+let employeeUserForm = document.querySelector('.employee_form');
+employeeUserForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(employeeUserForm);
+  const data = Object.fromEntries(formData);
+  console.log(data);
+
+let finalData = {
+  ...data,
+  username: data.username = CreateUsername(formData.get('employee_name')),
+  id: RandomID(12),
+}
+
+fetch(`http://localhost:3000/employee/${finalData.id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(finalData)
+  }).then(response => {
+    if (response.ok) {
+      window.location.href = `/employee/${finalData.id}`;
+    }
+      });
+});
+
+
+  </script>
+
+  <style>
+    .btn {
+      margin-left: 30px;
+      cursor: pointer;
+      color: rgb(0, 0, 0);
+      font-size: 50px;
+    }
+
+    .btn:hover {
+      background: none;
+    }
+
+
+    
+
+  </style>
+</html>

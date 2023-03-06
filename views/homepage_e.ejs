@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <%- include('./partials/fonts.ejs')%>
+    <link rel="stylesheet" type="text/css" href="/design.css">
+  </head>
+  <body>
+    <%- include('./partials/header.ejs')%>
+
+    yooo youre in!!!!
+    <body>
+      <body>
+        <% for (let employee of employee_users) { %>
+          <% if (loggedInUsername.username === employee.username && employee.company_code) { %>
+            <% if (employee.company_code === loggedInUsername.company_code) { %>
+              <p><%= employee.employee_name %></p>
+            <% } %>
+          <% } %>
+        <% } %>
+        
+      </body>
+      
+    </body>
+    
+ </body>
+</html>
