@@ -8,17 +8,9 @@
 
     yooo youre in!!!!
     <body>
-      <body>
-        <% for (let employee of employee_users) { %>
-          <% if (loggedInUsername.username === employee.username && employee.company_code) { %>
-            <% if (employee.company_code === loggedInUsername.company_code) { %>
-              <p><%= employee.employee_name %></p>
-            <% } %>
-          <% } %>
-        <% } %>
-        
-      </body>
-      
+      <% for (let i of employee_users) { %>
+        Hello, <%= i.employee_name.split(" ")[0] %>
+      <% } %>
     </body>
     
  </body>

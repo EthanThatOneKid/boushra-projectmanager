@@ -104,7 +104,6 @@ app.get('/homepage/:id', (req, res) => {
 
 
 let employee_users = [];
-let loggedInUsername;
 
 
 app.post('/employee/:id', (req, res) => {
@@ -126,33 +125,27 @@ app.post('/employee/:id', (req, res) => {
     fs.writeFileSync('./public/usernames.json', JSON.stringify(employee_users), 'utf-8');
 
     // Get the username of the logged-in user (Thanks CHATGPT)
-    loggedInUsername = req.body.username;
+     loggedInUsername = req.body.username;
     res.redirect(`/employee/${req.body.id}?username=${loggedInUsername}`);
   }  
 });
 
 
 app.get("/employee/:id", (req, res) => {
+
   try {
     employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
     companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
-
-    const loggedInEmployee = employee_users.find(employee => employee.username === req.params.id);
-    const loggedInCompany = companyNames.find(company => company.id === loggedInEmployee.company_code);
-
-    const loggedInUsername = loggedInEmployee.employee_name;
-
-    res.render('homepage_e', {
-      title: "Homepage",
-      employee_users,
-      loggedInUsername,
-      loggedInCompany
-    });
   } catch (err) {
     console.log(err);
   }
-});
 
+  
+  res.render('homepage_e', {
+    title: "Homepage",
+    employee_users
+  })
+})
 
 
 
