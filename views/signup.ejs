@@ -11,13 +11,14 @@
     <h2> 📩 Promake </h2>
     <label> Company Name </label> <br />
     <input type='text' name='companyName' value='' class='username_input' required /> <br />
-    <button type='submit' > Go to Dashboard </button> <br />
+    <button type='submit' > Sign Up </button> <br />
+    <p class = 'employee_login_btn'> Already a Registered Company? <br /> <span><a href = "/companylogin">Login as a Company!</a></span></p>
   </div>
   </form>
 
   
 
-  <p class = 'employee_login_btn'> Not a Registered Company? <span><a href = "/signupemployee">Login as an Employee!</a></span></p>
+  <p class = 'employee_login_btn'> Not a Registered Company? <span><a href = "/signupemployee">Sign Up as an Employee!</a></span></p>
 
 
     <script>
@@ -54,6 +55,7 @@
       passcode: Passcode(6),
       id: RandomID(10)
     };
+
     fetch(`http://localhost:3000/homepage/${newData.id}`, {
       method: 'POST',
       headers: {

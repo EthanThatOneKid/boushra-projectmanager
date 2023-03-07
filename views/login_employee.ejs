@@ -1,0 +1,39 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="/design.css">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+
+</head>
+<body> 
+  <%- include('./partials/header.ejs')%>
+
+  <a class = 'btn' href = "/signupemployee"> < </a>
+   
+  <form type='submit' class='employee_form'>
+    <div>
+    <h2> 📩 Promake </h2>
+    <label> Employee Username </label> <br />
+    <input type='text' name='companyInputName' value='' class='username_input' required /> <br />
+    <label> Employee Password </label> <br />
+    <input type='password' name='companyCode' value='' class='username_input companyCode' required /> <br />
+    <label> Confirm Employee Password </label> <br />
+    <input type='password' name='companyCodeConfirm' value='' class='username_input companyCodeConfirm' required /> <br />
+    <button type='submit' > Login In </button> <br />
+
+  </div>
+  </form>
+    
+
+    <style>
+      .btn {
+      margin-left: 30px;
+      cursor: pointer;
+      color: rgb(0, 0, 0);
+      font-size: 50px;
+    }
+
+    .btn:hover {
+      background: none;
+    }
+
+    </style>
+</body>

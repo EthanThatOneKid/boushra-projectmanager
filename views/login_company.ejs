@@ -1,0 +1,101 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="/design.css">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+
+</head>
+<body> 
+  <%- include('./partials/header.ejs')%>
+
+  <a class = 'btn' href = "/"> < </a>
+   
+  <form type='submit' class='employee_form'>
+    <div>
+    <h2> 📩 Promake </h2>
+    <label> Company Name </label> <br />
+    <input type='text' name='companyInputName' value='' class='username_input' required /> <br />
+    <label> Company Code </label> <br />
+    <input type='password' name='companyCode' value='' class='username_input companyCode' required /> <br />
+    <label> Confirm Company Code </label> <br />
+    <input type='password' name='companyCodeConfirm' value='' class='username_input companyCodeConfirm' required /> <br />
+    <button type='submit' > Login In </button> <br />
+
+  </div>
+  </form>
+
+
+    <script>
+
+    let form = document.querySelector('form');
+    let button = document.querySelector('button');
+    let company_name = document.querySelector('.companyName');
+    let company_code = document.querySelector('.companyCode');
+    let company_code_confirm = document.querySelector('.companyCodeConfirm');
+
+   
+
+
+
+    form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if(Number(company_code.value) === Number(company_code_confirm.value)) {
+      console.log("You got em correct");
+      company_code.style.border = "1px solid green";
+      company_code_confirm.style.border = "1px solid green";
+      let formData = new FormData(form);
+      let data = Object.fromEntries(formData);
+      console.log(data);
+      fetch('/company_validation', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+      }).then((response) => {
+        if(response.ok) {
+          window.location.replace(`/homepage/${data.companyCodeConfirm}`);
+        }
+      })
+    } else {
+      console.log("NOOO!!!")
+      company_code.style.border = "1px solid red";
+      company_code_confirm.style.border = "1px solid red";
+    }
+    
+    // let formData = new FormData(form);
+    // let data = Object.fromEntries(formData.entries());
+    // let newData = {
+    //   ...data,
+    //   passcode: Passcode(6),
+    //   id: RandomID(10)
+    // };
+
+    // fetch(`http://localhost:3000/homepage/${newData.id}`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(newData),
+    //   }).then(response => {
+    //     if (response.redirected) {
+    //       window.location.href = response.url;
+    //     }
+    //   });
+  });
+
+    </script>
+
+    <style>
+      .btn {
+      margin-left: 30px;
+      cursor: pointer;
+      color: rgb(0, 0, 0);
+      font-size: 50px;
+    }
+
+    .btn:hover {
+      background: none;
+    }
+
+    </style>
+</body>
