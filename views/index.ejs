@@ -95,14 +95,7 @@
             placeholder="E.g. Data Analytics"
             required
           />
-          <!--
-            <select name="employee">
-          <% for (let i = 0; i < foundEmployee.length; i++) { %>
-            <option value="<%= foundEmployee[i].company_code %>"><%= foundEmployee[i].employee_name %></option>
-          <% } %>
-        </select>
-        
-          -->
+      
         </h3>
         <h3> Employee Name : </h3>
         <select  name = "name" required>
@@ -140,6 +133,8 @@
             type="text"
             name="employee"
             placeholder="E.g. Samantha"
+            class = 'employee-input'
+            value = ''
             required
           />
         </h3>
@@ -171,6 +166,28 @@
     <div class="overlay locationOverlay hidden"></div>
 
     <script src="/script.js"></script>
+    <script>
+
+      let employee = document.querySelector('.employee-input');
+
+    
+
+    fetch('/usernames.json', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => 
+      response.json()
+    ).then(data => {
+      if (data.map(item => item.employee_name).includes(employee.value.trim())) {
+        console.log('it is included');
+      } else {
+        console.log('it is not included');
+      }
+})
+
+    </script>
     
   </body>
 </html>

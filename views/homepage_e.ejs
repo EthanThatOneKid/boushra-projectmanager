@@ -5,13 +5,136 @@
   </head>
   <body>
     <%- include('./partials/header.ejs')%>
+   
 
-    yooo youre in!!!!
-    <body>
-      <% for (let i of employee_users) { %>
-        Hello, <%= i.employee_name.split(" ")[0] %>
-      <% } %>
-    </body>
-    
+      <div class = 'name_intro'>
+        <% for (let i of employee_users) { %>
+          📩 Hello, <%= i.employee_name.split(" ")[0] %>
+        <% } %>
+
+        <a href = "/"> Logout </a>
+      </div>
+
+
+      <div class = 'user-information'>
+        <label> Name:  </label> <span> <%= found.employee_name %> </span> <br />
+        <label> Employee ID:  </label> <span> <%= found.id %> </span>
+
+
+      </div>
+
+      <div class = 'add-container'>
+        <button type="button" class="add">📄 Add A Project</button>
+      </div>
+      <p class = 'title-section'> Projects </p>
+      <%  if(renderingFilteredProjects.length > 0) {%>
+        <% for(let i = 0; i < renderingFilteredProjects.length; i++) { %>
+          <div class = 'projects'>
+          <a href="/project/<%= renderingFilteredProjects[i].id %>">
+          <h3 class="project-name"><%= renderingFilteredProjects[i].project %></h3>
+          <div class = 'description-container'>
+          <p class="author"><%= renderingFilteredProjects[i].name %></p>
+          <p>●</p>
+          <p class="amount"><%= renderingFilteredProjects[i].money %></p>
+          <p>●</p>
+          <p class="amount"><%= renderingFilteredProjects[i].date %></p>
+        </div>
+        <h5 class="description"><%= renderingFilteredProjects[i].desc %></h5>
+        </div>
+      </a>
+    </div>
+        <% } %>
+        <% } else { %>
+          <div class = 'add-project'>
+            <p> 📝 </p>
+            <h1>Uh oh, no projects!</h1> 
+            <h6> Add your project by clicking the Add the Project button. </h6>
+          </div>
+  
+          <% } %>
+      </div>
+
+      <div class="modal hidden">
+        <h1> Input the appropriate information! </h1>
+        <form class="form employeeform">
+          <h3>
+            Project Name:
+            <input
+              type="text"
+              name="project"
+              placeholder="E.g. Data Analytics"
+              required
+            />
+          </h3>
+          <h3>
+            Money: <input name = "money" value = '' required>
+          </h3>
+          <h3> 
+            Your Name:  <input  name = "name"  value = '' required>
+          </h3>
+         
+          <h3>
+            Project Description:
+            <input
+              type="comment"
+              name="desc"
+              placeholder="E.g. This project is about..." size = "30"
+              required
+            />
+          </h3>
+          <button type="submit" class = 'add-btns'>Add</button></form>
+        </form>
+      </div>
+      <div class="overlay hidden"></div>
+
+
+    <script src = '/script.js'></script>
+    <script>
+      let employeeFormUser = document.querySelector('.employeeform');
+
+      const url = window.location.href;
+      const lastPath = url.split('/').pop(); 
+      console.log(lastPath);
+
+      employeeFormUser.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(employeeFormUser);
+        const data = Object.fromEntries(formData);
+        let newData = {
+          ...data,
+          companyid: lastPath,
+        };
+
+        fetch(`http://localhost:3000/employeeproject/${lastPath}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newData),
+        });
+      });
+
+    </script>
+    <style>
+      .name_intro {
+        margin: 30px;
+        font-size: 30px;
+        font-weight: 600;
+        border-bottom: solid 2px gray;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .add {
+        margin: 50px;
+        text-align: center;
+      }
+
+      .projects, .title-section{
+        margin-top: 0;
+      }
+    </style>
  </body>
 </html>

@@ -106,6 +106,7 @@ const companyID = window.location.pathname.split('/').pop();
 console.log(companyID);
 /* Sending a POST request for the backend to use */
 employeeForm.addEventListener('submit', (e) => {
+  e.preventDefault();
   let formData1 = new FormData(employeeForm);
   data = Object.fromEntries(formData1);
   let newData = {
@@ -139,19 +140,7 @@ console.log(`Company data is : ${newData.companyID}`)
   });
 });
 
-let loginForm = document.querySelector('.login');
-loginForm.addEventListener('submit', (e) => {
-  const formData = new FormData(loginForm);
-  const data = Object.entries(formData);
 
-  fetch('http://localhost:3000/homepage/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data).toLowerCase(),
-  });
-});
 
 /* funcition */
 
