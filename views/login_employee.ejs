@@ -1,27 +1,58 @@
 <head>
-  <link rel="stylesheet" type="text/css" href="/design.css">
-  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
-
+  <link rel="stylesheet" type="text/css" href="/design.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kanit&display=swap"
+    rel="stylesheet"
+  />
 </head>
-<body> 
+<body>
   <%- include('./partials/header.ejs')%>
 
-  <a class = 'btn' href = "/signupemployee"> < </a>
-   
-  <form type='submit' class='employee_form'>
-    <div>
-    <h2> 📩 Promake </h2>
-    <label> Employee Username </label> <br />
-    <input type='text' name='userName' value='' class='username_input userName' required /> <br />
-    <label> Employee Password </label> <br />
-    <input type='password' name='userPassword' value='' class='username_input userPassword companyCode' required /> <br />
-    <label> Confirm Employee Password </label> <br />
-    <input type='password' name='confirmUserPassword' value='' class='username_input confirmUserPassword companyCodeConfirm' required /> <br />
-    <button type='submit' > Login In </button> <br />
+  <a class="btn" href="/signupemployee"> < </a>
 
-  </div>
+  <form type="submit" class="employee_form">
+    <div>
+      <h2>📩 Promake</h2>
+      <label> Employee Username </label> <br />
+      <input
+        type="text"
+        name="userName"
+        value=""
+        class="username_input userName"
+        required
+      />
+      <br />
+      <label> Employee Password </label> <br />
+      <input
+        type="password"
+        name="userPassword"
+        value=""
+        class="username_input userPassword companyCode"
+        required
+      />
+      <br />
+      <label> Confirm Employee Password </label> <br />
+      <input
+        type="password"
+        name="confirmUserPassword"
+        value=""
+        class="username_input confirmUserPassword companyCodeConfirm"
+        required
+      />
+      <br />
+      <label> Employee ID </label> <br />
+      <input
+        type="text"
+        name="employeeID"
+        value=""
+        class="username_input confirmUserPassword companyCodeConfirm"
+        required
+      />
+      <br />
+      <button type="submit">Login In</button> <br />
+    </div>
   </form>
-    
+
   <script>
     let form = document.querySelector('form');
     let username = document.querySelector('.username_input');
@@ -29,47 +60,46 @@
     let passwordConfirm = document.querySelector('.confirmUserPassword');
 
     let RandomID = (length) => {
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += Math.trunc(Math.random() * 10);
-    }
-    return result;
-  }
-
-  form.addEventListener('submit', (e) => {
-   
- 
-    if(password.value === passwordConfirm.value) {
-      passwordConfirm.style.border = "1px solid green";
-      password.style.border = "1px solid green";
-      let formData = new FormData(form);
-      let data = Object.fromEntries(formData);
-    
-      console.log(data); 
-
-      fetch('/employee_validation', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-      },
-        body: JSON.stringify(data)
-      }).then(response => {
-        if(response.ok) {  
-          window.location.replace(`/employee/${given_data.company_code}`); 
-        }
-      })
-    } else {
-      passwordConfirm.style.border = "1px solid red";
-      password.style.border = "1px solid red";
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += Math.trunc(Math.random() * 10);
+      }
+      return result;
     };
 
-  })
-  
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (password.value === passwordConfirm.value) {
+        passwordConfirm.style.border = '1px solid green';
+        password.style.border = '1px solid green';
+        let formData = new FormData(form);
+        let data = Object.fromEntries(formData);
 
+        let newData = {
+          ...data,
+        };
+        console.log(newData);
+
+        fetch('/employee_validation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newData),
+        }).then((response) => {
+          if (response.ok) {
+            window.location.replace(`/employee/${newData.employeeID}`);
+          }
+        });
+      } else {
+        passwordConfirm.style.border = '1px solid red';
+        password.style.border = '1px solid red';
+      }
+    });
   </script>
 
-    <style>
-      .btn {
+  <style>
+    .btn {
       margin-left: 30px;
       cursor: pointer;
       color: rgb(0, 0, 0);
@@ -79,6 +109,5 @@
     .btn:hover {
       background: none;
     }
-
-    </style>
+  </style>
 </body>

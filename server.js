@@ -17,16 +17,15 @@ let tasks = [];
 
 /* Functions */
 
-
 let Passcode = (length) => {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const chars =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
   for (let i = 0; i < length; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return result;
-}
-
+};
 
 /* Server Side Logic */
 app.get('/', (req, res) => {
@@ -36,50 +35,49 @@ app.get('/', (req, res) => {
     console.log(err);
   }
   res.render('signup', {
-    title: "SignUp",
-    companyNames
-  })
+    title: 'SignUp',
+    companyNames,
+  });
 });
 
 app.get('/signupemployee', (req, res) => {
   res.render('homepage_employee', {
-    title: "Login as Employee",
+    title: 'Login as Employee',
   });
 });
 
 app.get('/companylogin', (req, res) => {
   res.render('login_company', {
-    title: "Login as Company"
-  })
+    title: 'Login as Company',
+  });
 });
 
 app.post('/company_validation', (req, res) => {
-  const company_code  = req.body.companyCodeConfirm;
+  const company_code = req.body.companyCodeConfirm;
   const company_username = req.body.companyInputName;
 
   companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
 
   // validate the input data using the .find method
-  const foundLoginID = companyNames.find(match => {
+  const foundLoginID = companyNames.find((match) => {
     return match.id == company_code?.toString();
   });
 
-  const foundLoginUser = companyNames.find(match => {
+  const foundLoginUser = companyNames.find((match) => {
     return match.companyName.toLowerCase() == company_username.toLowerCase();
-  })
+  });
 
-  if(foundLoginID && foundLoginUser) {
+  if (foundLoginID && foundLoginUser) {
     res.redirect(`/homepage/${company_code}`);
-    console.log("We found a match and redirected");
+    console.log('We found a match and redirected');
   } else {
     console.log('We found a match but we cannot redirect.');
   }
 });
 
-
 app.post('/homepage/:id', (req, res) => {
   try {
-   companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
+    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
   } catch (err) {
     console.log(err);
   }
@@ -89,51 +87,49 @@ app.post('/homepage/:id', (req, res) => {
     passcode: Passcode(6),
     id: req.params.id,
   };
-  
+
   companyNames.push(newCompany);
-  fs.writeFileSync('./public/users.json', JSON.stringify(companyNames), 'utf-8');
-  res.redirect(`/homepage/${req.params.id}`); 
+  fs.writeFileSync(
+    './public/users.json',
+    JSON.stringify(companyNames),
+    'utf-8'
+  );
+  res.redirect(`/homepage/${req.params.id}`);
 });
-
-
 
 let employeeTry2 = [];
 let renderingFiltered;
 app.get('/homepage/:id', (req, res) => {
   let id = req.params.id;
   const url = req.originalUrl;
-  const lastPath = url.split('/').pop(); 
+  const lastPath = url.split('/').pop();
   /* We are reading the contents and then rendering all to the front end */
   try {
     renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
     renderingEmployees = JSON.parse(fs.readFileSync('./public/employees.json'));
     companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
     employeeTry2 = JSON.parse(fs.readFileSync('./public/usernames.json'));
-
   } catch (err) {
     console.log(err);
   }
 
-   renderingFiltered = renderingEmployees.filter(element => {
+  renderingFiltered = renderingEmployees.filter((element) => {
     return element.id === id;
   });
-
 
   // const foundEmployee = employee_users.filter(elem =>{
   //   return elem.company_code === lastPath;
   // })
   // console.log(foundEmployee);
 
-
-  let renderingFilteredProjects = renderingProjects.filter(element => {
+  let renderingFilteredProjects = renderingProjects.filter((element) => {
     return element.companyid === id;
   });
-
 
   renderingProjects.reverse();
   renderingEmployees.reverse();
   renderingFiltered.reverse();
-  
+  renderingFilteredProjects.reverse();
 
   res.render('index', {
     title: 'Homepage',
@@ -143,13 +139,10 @@ app.get('/homepage/:id', (req, res) => {
     renderingFiltered,
     renderingFilteredProjects,
     companyNames,
-    
   });
 });
 
-
 let employee_users = [];
-
 
 app.post('/employee/:id', (req, res) => {
   let id = req.params.id;
@@ -160,18 +153,23 @@ app.post('/employee/:id', (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  
-  const foundCompany = companyNames.find(company => company.id == req.body.company_code);
 
-  if(foundCompany) {
+  const foundCompany = companyNames.find(
+    (company) => company.id == req.body.company_code
+  );
+
+  if (foundCompany) {
     employee_users.push(req.body);
-    fs.writeFileSync('./public/usernames.json', JSON.stringify(employee_users), 'utf-8');
+    fs.writeFileSync(
+      './public/usernames.json',
+      JSON.stringify(employee_users),
+      'utf-8'
+    );
     res.redirect(`/employee/${req.body.id}`);
-  }  
+  }
 });
 
 app.post('/employeeproject/:id', (req, res) => {
-
   try {
     employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
     companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
@@ -182,28 +180,32 @@ app.post('/employeeproject/:id', (req, res) => {
 
   let id = req.params.id;
   const url = req.originalUrl;
-  const lastPath = url.split('/').pop(); 
+  const lastPath = url.split('/').pop();
   console.log(lastPath);
 
-
+  const foundEmployee = employee_users.find((elem) => elem.id === lastPath);
+  console.log(foundEmployee);
   let newData = {
     ...req.body,
-    companyid: lastPath,
+    companyid: foundEmployee.company_code,
+    path: lastPath,
     id: Date.now(),
     date: new Date().toLocaleDateString('en-US'),
-  }
+  };
 
+  console.log(newData);
   renderingProjects.push(newData);
-    fs.writeFileSync('./public/projects.json', JSON.stringify(renderingProjects), 'utf-8');
-    res.redirect(`/employee/${lastPath}`);
+  fs.writeFileSync(
+    './public/projects.json',
+    JSON.stringify(renderingProjects),
+    'utf-8'
+  );
+});
 
-})
-
-app.get("/employee/:id", (req, res) => {
-
+app.get('/employee/:id', (req, res) => {
   const url = req.originalUrl;
-  const lastPath = url.split('/').pop(); 
-  console.log(typeof lastPath);
+  const lastPath = url.split('/').pop();
+  console.log(lastPath);
 
   try {
     employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
@@ -213,64 +215,63 @@ app.get("/employee/:id", (req, res) => {
     console.log(err);
   }
 
-  const renderingFilteredProjects = renderingProjects.filter(elem => {
-    return elem.companyid === lastPath;
-  })
-
-  const found = employee_users.find(match => {
-    return match.company_code === lastPath;
+  const renderingFilteredProjects = renderingProjects.filter((elem) => {
+    return elem.path === lastPath;
   });
 
+  renderingFilteredProjects.reverse();
+
+  let found = [];
+  found = employee_users.find((match) => {
+    return match.id === lastPath;
+  });
+  console.log(found);
+  console.log(renderingFilteredProjects);
   res.render('homepage_e', {
-    title: "Homepage",
+    title: 'Homepage',
     employee_users,
     renderingProjects,
     renderingFilteredProjects,
-    found
-  })
-})
-
+    found,
+  });
+});
 
 app.get('/employeelogin', (req, res) => {
   res.render('login_employee', {
-    title: "Login as Employee",
-  })
-})
-
+    title: 'Login as Employee',
+  });
+});
 
 app.post('/employee_validation', (req, res) => {
-  const the_id = req.body.id;
   const user_username = req.body.userName;
   const user_company_code = req.body.confirmUserPassword;
-  console.log(user_username, user_company_code, the_id);
+  console.log(user_username, user_company_code);
 
   employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
- 
 
-  const foundLoginCode = employee_users.find(match => {
+  let foundLoginCode = [];
+  foundLoginCode = employee_users.filter((match) => {
     return match.employee_password === user_company_code;
   });
 
   console.log(foundLoginCode);
+  let foundLoginUser = [];
+  foundLoginUser = employee_users.find((match) => {
+    return match.employee_username === user_username;
+  });
 
-  const foundLoginUser = employee_users.find(match => {
-    return match.employee_name == user_username;
-  })
-  console.log(foundLoginCode);
-  console.log(typeof foundLoginCode.id);
+  console.log(foundLoginUser);
 
-  if(foundLoginCode && foundLoginUser) {
-    res.redirect(`/employee/${foundLoginUser.id}`);
-    const employeeId = foundLoginUser.id;
-    console.log("We found a match and redirected");
-    res.json({ employeeId: employeeId });
+  let the_id;
+  if (foundLoginCode || foundLoginUser) {
+    the_id = foundLoginUser.id;
+    console.log(the_id);
+    res.redirect(`/employee/${the_id}`);
+    console.log('We found a match and redirected');
   } else {
     console.log('We found a match but we cannot redirect.');
   }
-
 });
-
-
 
 app.post('/employee', (req, res) => {
   /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the employees.json */
@@ -289,7 +290,6 @@ app.post('/employee', (req, res) => {
   );
 });
 
-
 app.post('/project', (req, res) => {
   /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the projects.json */
   try {
@@ -302,7 +302,7 @@ app.post('/project', (req, res) => {
   const newProject = {
     ...req.body,
     id: Date.now(),
-    date: new Date().toLocaleDateString('en-US')
+    date: new Date().toLocaleDateString('en-US'),
   };
 
   renderingProjects.push(newProject);
@@ -313,8 +313,6 @@ app.post('/project', (req, res) => {
   );
 });
 
-
-
 app.get('/project/:id', (req, res) => {
   try {
     /* Reading file first in order to create a new updated Project, (looking at the contents) */
@@ -323,13 +321,11 @@ app.get('/project/:id', (req, res) => {
     console.log(err);
   }
 
-  res.render('projects', { 
+  res.render('projects', {
     renderingProjects,
-    title: 'Project' 
+    title: 'Project',
   });
 });
-
-
 
 app.get('/project/:id', (req, res) => {
   try {

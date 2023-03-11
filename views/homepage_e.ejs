@@ -8,24 +8,23 @@
    
 
       <div class = 'name_intro'>
-        <% for (let i of employee_users) { %>
-          📩 Hello, <%= i.employee_name.split(" ")[0] %>
-        <% } %>
-
+        <div>
+          📩 Hello, <%= found.employee_name.split(" ")[0] %>
+          <div class = 'user-information'>
+            <label> Name:  </label> <span> <%= found.employee_name %> </span> <br />
+            <label> Employee ID:  </label> <span> <%= found.id %> </span>
+          </div>
+        </div>
         <a href = "/"> Logout </a>
       </div>
 
 
-      <div class = 'user-information'>
-        <label> Name:  </label> <span> <%= found.employee_name %> </span> <br />
-        <label> Employee ID:  </label> <span> <%= found.id %> </span>
-
-
-      </div>
+      
 
       <div class = 'add-container'>
         <button type="button" class="add">📄 Add A Project</button>
       </div>
+
       <p class = 'title-section'> Projects </p>
       <%  if(renderingFilteredProjects.length > 0) {%>
         <% for(let i = 0; i < renderingFilteredProjects.length; i++) { %>
@@ -54,6 +53,7 @@
           <% } %>
       </div>
 
+     
       <div class="modal hidden">
         <h1> Input the appropriate information! </h1>
         <form class="form employeeform">
@@ -102,8 +102,8 @@
         const data = Object.fromEntries(formData);
         let newData = {
           ...data,
-          companyid: lastPath,
         };
+        console.log(newData)
 
         fetch(`http://localhost:3000/employeeproject/${lastPath}`, {
           method: 'POST',
@@ -111,14 +111,19 @@
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(newData),
-        });
+        }).then(response => {
+          if(response.ok) {
+            window.location.replace(`/employee/${lastPath}`);
+          }
+        })
       });
 
     </script>
     <style>
       .name_intro {
+        
         margin: 30px;
-        font-size: 30px;
+        font-size: 40px;
         font-weight: 600;
         border-bottom: solid 2px gray;
         padding: 10px;
@@ -128,13 +133,21 @@
       }
 
       .add {
-        margin: 50px;
+        margin:  10px 150px;
         text-align: center;
       }
 
-      .projects, .title-section{
-        margin-top: 0;
+    
+      .add-container {
+          grid-template-rows: 0fr 0fr 0fr;
       }
+
+      .user-information {
+        font-size: 15px;
+        margin-left: 60px;
+       
+      }
+
     </style>
  </body>
 </html>
