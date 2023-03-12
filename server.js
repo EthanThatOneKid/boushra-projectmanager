@@ -314,27 +314,43 @@ app.post('/project', (req, res) => {
 });
 
 app.get('/project/:id', (req, res) => {
+  
+  const url = req.originalUrl;
+  const lastPath = url.split('/').pop();
+
   try {
     /* Reading file first in order to create a new updated Project, (looking at the contents) */
     renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
+    tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
+
   } catch (err) {
     console.log(err);
   }
 
+  const foundProjects = renderingProjects.find(elem => elem.id === Number(lastPath));
+  console.log(foundProjects);
+
   res.render('projects', {
     renderingProjects,
+    foundProjects,
+    tasks,
     title: 'Project',
   });
 });
 
-app.get('/project/:id', (req, res) => {
+app.post('/tasks', (req, res) => {
   try {
     tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
-    res.render('projects.ejs', {
-      title: 'Projects',
-      tasks: tasks,
-    });
   } catch (err) {
-    console.log(err);
+    res.status(500).send(err);
   }
-});
+
+  tasks.push(req.body);
+  fs.writeFileSync(
+    './public/tasks.json',
+    JSON.stringify(tasks),
+    'utf-8'
+  );
+
+})
+

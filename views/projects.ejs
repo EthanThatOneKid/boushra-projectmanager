@@ -7,48 +7,260 @@
   </head>
   <body>
     <%- include('./partials/header.ejs')%>
-    <div id="nav"><%- include('./partials/navigate.ejs')%></div>
 
-    <div class = 'specific_total'>
-    <p class = 'specific_project'><%= project.project %></p>
-    <p class = 'specific_worker'> Current Workers on project: <span> <%= project.name %></span></p>
-  </div>
-    
   
-   
-    <div class="projects-all-output">
-      <div class="to-do-container">
-        <h1>All Current To-Do's!</h1>
-        
+
+  <div class = 'name_intro'>
+    <div>
+      📩 <%= foundProjects.project %>
+      <div class = 'user-information'>
+        Current Worker(s) on project: <span> <%= foundProjects.name %></span>
       </div>
     </div>
+    <a href = "/"> Logout </a>
+  </div>
+
   
+   <div class = 'all-buttons'>
+    <button type = 'submit' class = 'add'> <span class = 'plus'>+</span> Add A Task! </button>
+    <button type = 'click' class = 'view'> View All Tasks!</button>
+  </div>
+
+  <div class="projects-all-output">
+    <div class="to-do-container">
+      <h1>All Current To-Do's!</h1>
+      <% if (tasks.length > 0) { %>
+        <% tasks.forEach((task) => { %>
+          <%= task.task %> :
+          <%= task.date %>
+          <%= task.description %>
+          <button> X </button>
+        <% }); %>
+      <% } else { %>
+        <div>
+          <p> No Tasks! Write your tasks down here!</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  
+
+    <div class="modal hidden">
+    <div class = 'modal-content'>
+    <h1> Input the appropriate information! </h1>
+      <form class="form projectform">
+        <label> Task To Do: </label>
+          <input
+            type="text"
+            name="task"
+            placeholder="E.g. Finish part 1 of the forms..."
+            size = '40'
+            required
+          /> <br />
+        <label> Due Date: </label>
+        <label> If you are unsure of the due date, do not fill this out. </label>
+        <input type = 'date' name = 'date' /><br />
+        <label> Description </label>
+        <input type = 'text' name = 'description' />
+        <button type="submit" class = 'add-btns'>Add</button></form>
+      </form>
+    </div>
+    </div>
+    <div class="overlay hidden"></div>
+
+
+
+
+    <script src = '/script.js'></script>
     <script>
-
       
+      let form = document.querySelector('.projectform');
 
-    let form = document.querySelector('form');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      let formData = new FormData(form);
-      let data = Object.entries(formData);
-      fetch(`http://localhost:3000/project/${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+
+      let RandomID = (length) => {
+        let result = '';
+        for (let i = 0; i < length; i++) {
+          result += Math.trunc(Math.random() * 10);
+        }
+        return result;
+      }
+
+      form.addEventListener('submit', (e) => {
+        let formData = new FormData(form);
+        let data = Object.fromEntries(formData);
+        console.log(data);
+
+        let newData = {
+          ...data,
+          id: RandomID(7)
+        };
+
+        fetch(`http://localhost:3000/tasks`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newData),
+        });
       });
-      console.log(data)
-    });
+
+
 
 
     </script>
 
     <style>
-      .p {
-        opacity: 0;
-  
+
+      * {
+        font-family: "Tilt Neon", sans-serif;
+      }
+      
+
+      .modal {
+        top: 350;
+      }
+
+
+      .modal h1 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .modal label {
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+
+      .modal input[type="text"], .modal input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        margin-bottom: 20px;
+      }
+
+      .modal input[type="text"]::placeholder, .modal input[type="date"]::placeholder {
+        color: #a9a9a9;
+      }
+
+      .modal button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .modal button[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+
+      .modal form label:last-child {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #a9a9a9;
+      }
+
+      .name_intro {
+        margin: 30px;
+        font-size: 40px;
+        font-weight: 600;
+        border-bottom: solid 2px #ccc;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .user-information {
+        font-size: 15px;
+        color: #999;
+      }
+
+      .all-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 10px;
+      }
+
+      .all-buttons button {
+        padding: 20px 110px 20px 25px;
+        font-family: "Circular Std", sans-serif;
+        font-weight: 800;
+        color: #fff;
+        font-size: 20px;
+        border-radius: 50px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .all-buttons button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .plus {
+        background-color: #d73232;
+        color: #fff;
+        padding: 8px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 24px;
+        font-weight: 800;
+        margin-right: 10px;
+      }
+
+      .all-buttons .add {
+        background-color: #d73232;
+      }
+
+      .all-buttons .view {
+        background-color: #483d8b;
+      }
+
+      .projects-all-output {
+        margin: 30px 70px;
+      }
+
+      .to-do-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .to-do-container h1 {
+        font-size: 36px;
+        font-weight: 800;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .to-do-container p {
+        font-size: 18px;
+        color: #999;
+      }
+
+      .to-do-container ul {
+        margin-top: 20px;
+      }
+
+      .to-do-container li {
+        font-size: 20px;
+        color: #333;
+        margin-bottom: 10px;
       }
     </style>
   </body>

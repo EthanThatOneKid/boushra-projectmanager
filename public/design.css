@@ -310,7 +310,7 @@ main {
 .modal {
   font-family: 'PT Serif', sans-serif;
   color: rgb(61, 57, 57);
-  background-color: rgb(205, 205, 212);
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
   padding: 70px;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
