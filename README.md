@@ -47,6 +47,8 @@ There are several things I plan to do to finish this as quickly as possible. I p
 <img width="1439" alt="Screen Shot 2023-03-06 at 11 14 55 PM" src="https://user-images.githubusercontent.com/116927138/223350802-2a50a51e-9cad-4a62-9377-ffe8e9674fc9.png">
 <img width="1438" alt="Screen Shot 2023-03-06 at 11 15 05 PM" src="https://user-images.githubusercontent.com/116927138/223350831-2f40972d-1bf8-4ded-b170-358c696a153f.png">
 <img width="1439" alt="Screen Shot 2023-03-11 at 6 55 16 PM" src="https://user-images.githubusercontent.com/116927138/224521651-fb00003e-4c1d-4824-ba80-df9ba1101612.png">
+<img width="1355" alt="Screen Shot 2023-03-12 at 4 46 21 PM" src="https://user-images.githubusercontent.com/116927138/224581397-abb9ee64-870d-48a6-b187-c0415c133eb9.png">
+
 
 
 ### Working on capatability with phone. Design for phone is almost done.
