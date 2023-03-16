@@ -48,8 +48,8 @@
       </div>
     </main>
     <div class = 'add-container'>
-      <button type = 'button' class="add-employee-btn">👤 Add an Employee</button>
-      <button type="button" class="add">📄 Add A Project</button>
+      <button type = 'button' class="add-employee-btn"> + Add an Employee</button>
+      <button type="button" class="add"> + Add A Project</button>
     </div>
   </div>
  
@@ -172,22 +172,80 @@
 
     
 
-    fetch('/usernames.json', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(response => 
-      response.json()
-    ).then(data => {
-      if (data.map(item => item.employee_name).includes(employee.value.trim())) {
-        console.log('it is included');
-      } else {
-        console.log('it is not included');
-      }
+        fetch('usernames.json', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then(response => 
+          response.json()
+        ).then(data => {
+          if (data.map(item => item.employee_name.toLowerCase()).includes(employee.value.toLowerCase().trim())) {
+            console.log('it is included');
+          } else {
+            console.log('it is not included');
+          }
 })
 
     </script>
+
+    <style>
+
+.modal {
+        top: 750;
+      }
+
+
+      .modal h1 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .modal label {
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+
+      .modal input[type="text"], .modal input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        margin-bottom: 20px;
+      }
+
+      .modal input[type="text"]::placeholder, .modal input[type="date"]::placeholder {
+        color: #a9a9a9;
+      }
+
+      .modal button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .modal button[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+
+      .modal form label:last-child {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 14px;
+        color: #a9a9a9;
+      }
+
+      
+    </style>
     
   </body>
 </html>

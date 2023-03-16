@@ -339,13 +339,18 @@ app.get('/project/:id', (req, res) => {
 });
 
 app.post('/tasks', (req, res) => {
+
+
   try {
     tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
   } catch (err) {
     res.status(500).send(err);
   }
 
-  tasks.push(req.body);
+  let newTask = {
+    ...req.body,
+  }
+  tasks.push(newTask);
   fs.writeFileSync(
     './public/tasks.json',
     JSON.stringify(tasks),
