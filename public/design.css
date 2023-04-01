@@ -279,7 +279,8 @@ main {
 
 
 .projects {
-  margin: 50px;
+  
+  margin: 50px 80px 50px 80px;
   font-size: 20px;
   background-color: rgba(192, 192, 198, 0.6);
   padding: 10px 90px 10px 90px;

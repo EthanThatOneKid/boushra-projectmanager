@@ -12,8 +12,11 @@ app.listen(3000);
 /* Variables  */
 let renderingProjects;
 let renderingEmployees;
+let renderingFiltered;
 let companyNames = [];
 let tasks = [];
+let employee_users = [];
+let employeeTry2 = [];
 
 /* Functions */
 
@@ -27,13 +30,19 @@ let Passcode = (length) => {
   return result;
 };
 
-/* Server Side Logic */
-app.get('/', (req, res) => {
+const GetRequest = (getArray, fileName) => {
   try {
-    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
+    getArray = JSON.parse(fs.readFileSync(fileName));
   } catch (err) {
     console.log(err);
   }
+  return getArray;
+}
+
+/* Get Requests */
+
+app.get('/', (req, res) => {
+  companyNames = GetRequest(companyNames, './public/users.json');
   res.render('signup', {
     title: 'SignUp',
     companyNames,
@@ -52,75 +61,23 @@ app.get('/companylogin', (req, res) => {
   });
 });
 
-app.post('/company_validation', (req, res) => {
-  const company_code = req.body.companyCodeConfirm;
-  const company_username = req.body.companyInputName;
 
-  companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
-
-  // validate the input data using the .find method
-  const foundLoginID = companyNames.find((match) => {
-    return match.id == company_code?.toString();
-  });
-
-  const foundLoginUser = companyNames.find((match) => {
-    return match.companyName.toLowerCase() == company_username.toLowerCase();
-  });
-
-  if (foundLoginID && foundLoginUser) {
-    res.redirect(`/homepage/${company_code}`);
-    console.log('We found a match and redirected');
-  } else {
-    console.log('We found a match but we cannot redirect.');
-  }
-});
-
-app.post('/homepage/:id', (req, res) => {
-  try {
-    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
-  } catch (err) {
-    console.log(err);
-  }
-
-  const newCompany = {
-    ...req.body,
-    passcode: Passcode(6),
-    id: req.params.id,
-  };
-
-  companyNames.push(newCompany);
-  fs.writeFileSync(
-    './public/users.json',
-    JSON.stringify(companyNames),
-    'utf-8'
-  );
-  res.redirect(`/homepage/${req.params.id}`);
-});
-
-let employeeTry2 = [];
-let renderingFiltered;
 app.get('/homepage/:id', (req, res) => {
   let id = req.params.id;
   const url = req.originalUrl;
   const lastPath = url.split('/').pop();
   /* We are reading the contents and then rendering all to the front end */
-  try {
-    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
-    renderingEmployees = JSON.parse(fs.readFileSync('./public/employees.json'));
-    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
-    employeeTry2 = JSON.parse(fs.readFileSync('./public/usernames.json'));
-  } catch (err) {
-    console.log(err);
-  }
+ 
+  renderingProjects = GetRequest(renderingProjects, './public/projects.json');
+  renderingEmployees = GetRequest(renderingEmployees, './public/employees.json');
+  employeeTry2 = GetRequest(employeeTry2, './public/usernames.json');
+  companyNames = GetRequest(companyNames, './public/users.json');
+
+  
 
   renderingFiltered = renderingEmployees.filter((element) => {
     return element.id === id;
   });
-
-  // const foundEmployee = employee_users.filter(elem =>{
-  //   return elem.company_code === lastPath;
-  // })
-  // console.log(foundEmployee);
 
   let renderingFilteredProjects = renderingProjects.filter((element) => {
     return element.companyid === id;
@@ -142,17 +99,116 @@ app.get('/homepage/:id', (req, res) => {
   });
 });
 
-let employee_users = [];
+
+
+app.get('/employee/:id', (req, res) => {
+  const url = req.originalUrl;
+  const lastPath = url.split('/').pop();
+
+  employee_users = GetRequest(employee_users, './public/usernames.json');
+  companyNames = GetRequest(companyNames, './public/users.json');
+  renderingProjects = GetRequest(renderingProjects, './public/projects.json');
+  
+
+  const renderingFilteredProjects = renderingProjects.filter((elem) => {
+    return elem.path === lastPath;
+  });
+
+  renderingFilteredProjects.reverse();
+
+  let found = [];
+  found = employee_users.find((match) => {
+    return match.id === lastPath;
+  });
+
+  res.render('homepage_e', {
+    title: 'Homepage',
+    employee_users,
+    renderingProjects,
+    renderingFilteredProjects,
+    found,
+  });
+});
+
+app.get('/employeelogin', (req, res) => {
+  res.render('login_employee', {
+    title: 'Login as Employee',
+  });
+});
+
+
+app.get('/project/:id', (req, res) => {
+  const url = req.originalUrl;
+  const lastPath = url.split('/').pop();
+
+  renderingProjects = GetRequest(renderingProjects,'./public/projects.json');
+  tasks = GetRequest(tasks, './public/tasks.json');
+
+  const foundProjects = renderingProjects.find(elem => elem.id === Number(lastPath));
+  const foundTasks = tasks.filter(elem => elem.id === lastPath);
+  console.log(foundTasks);
+
+  res.render('projects', {
+    renderingProjects,
+    foundProjects,
+    tasks,
+    foundTasks,
+    title: 'Project',
+  });
+});
+
+
+
+/* Post Requests */
+
+app.post('/company_validation', (req, res) => {
+  const company_code = req.body.companyCodeConfirm;
+  const company_username = req.body.companyInputName;
+
+  companyNames = GetRequest(companyNames, './public/users.json');
+
+  // validate the input data using the .find method
+  const foundLoginID = companyNames.find((match) => {
+    return match.id == company_code?.toString();
+  });
+
+  const foundLoginUser = companyNames.find((match) => {
+    return match.companyName.toLowerCase() == company_username.toLowerCase();
+  });
+
+  if (foundLoginID && foundLoginUser) {
+    res.redirect(`/homepage/${company_code}`);
+    console.log('We found a match and redirected');
+  } else {
+    console.log('We found a match but we cannot redirect.');
+  }
+});
+
+app.post('/homepage/:id', (req, res) => {
+ 
+  companyNames = GetRequest(companyNames,'./public/users.json');
+
+  const newCompany = {
+    ...req.body,
+    passcode: Passcode(6),
+    id: req.params.id,
+  };
+
+  companyNames.push(newCompany);
+  fs.writeFileSync(
+    './public/users.json',
+    JSON.stringify(companyNames),
+    'utf-8'
+  );
+  res.redirect(`/homepage/${req.params.id}`);
+});
 
 app.post('/employee/:id', (req, res) => {
-  let id = req.params.id;
-  try {
-    employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
-    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
-    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
-  } catch (err) {
-    console.log(err);
-  }
+
+  employee_users = GetRequest(employee_users, './public/usernames.json');
+  companyNames = GetRequest(companyNames, './public/users.json' );
+  renderingProjects = GetRequest(renderingProjects,'./public/projects.json');
+
 
   const foundCompany = companyNames.find(
     (company) => company.id == req.body.company_code
@@ -170,15 +226,11 @@ app.post('/employee/:id', (req, res) => {
 });
 
 app.post('/employeeproject/:id', (req, res) => {
-  try {
-    employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
-    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
-    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
-  } catch (err) {
-    console.log(err);
-  }
 
-  let id = req.params.id;
+  employee_users = GetRequest(employee_users, './public/usernames.json');
+  companyNames = GetRequest(companyNames, './public/users.json');
+  renderingProjects = GetRequest(renderingProjects, './public/projects.json');
+
   const url = req.originalUrl;
   const lastPath = url.split('/').pop();
   console.log(lastPath);
@@ -202,52 +254,12 @@ app.post('/employeeproject/:id', (req, res) => {
   );
 });
 
-app.get('/employee/:id', (req, res) => {
-  const url = req.originalUrl;
-  const lastPath = url.split('/').pop();
-  console.log(lastPath);
-
-  try {
-    employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
-    companyNames = JSON.parse(fs.readFileSync('./public/users.json'));
-    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
-  } catch (err) {
-    console.log(err);
-  }
-
-  const renderingFilteredProjects = renderingProjects.filter((elem) => {
-    return elem.path === lastPath;
-  });
-
-  renderingFilteredProjects.reverse();
-
-  let found = [];
-  found = employee_users.find((match) => {
-    return match.id === lastPath;
-  });
-  console.log(found);
-  console.log(renderingFilteredProjects);
-  res.render('homepage_e', {
-    title: 'Homepage',
-    employee_users,
-    renderingProjects,
-    renderingFilteredProjects,
-    found,
-  });
-});
-
-app.get('/employeelogin', (req, res) => {
-  res.render('login_employee', {
-    title: 'Login as Employee',
-  });
-});
-
 app.post('/employee_validation', (req, res) => {
   const user_username = req.body.userName;
   const user_company_code = req.body.confirmUserPassword;
-  console.log(user_username, user_company_code);
 
-  employee_users = JSON.parse(fs.readFileSync('./public/usernames.json'));
+
+  employee_users = GetRequest(employee_users, './public/usernames.json')
 
   let foundLoginCode = [];
   foundLoginCode = employee_users.filter((match) => {
@@ -274,13 +286,8 @@ app.post('/employee_validation', (req, res) => {
 });
 
 app.post('/employee', (req, res) => {
-  /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the employees.json */
-  try {
-    /* Reading file first in order to create a new updated Employee, (looking at the contents) */
-    renderingEmployees = JSON.parse(fs.readFileSync('./public/employees.json'));
-  } catch (err) {
-    console.error(err);
-  }
+ 
+  renderingEmployees = GetRequest(renderingEmployees, './public/employees.json')
   renderingEmployees.push(req.body);
 
   fs.writeFileSync(
@@ -291,13 +298,8 @@ app.post('/employee', (req, res) => {
 });
 
 app.post('/project', (req, res) => {
-  /* Looks at the post request and then parses it, reads file, pushes it, and then writes it into the projects.json */
-  try {
-    /* Reading file first in order to create a new updated Project, (looking at the contents) */
-    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
-  } catch (err) {
-    console.error(err);
-  }
+
+  renderingProjects = GetRequest(renderingProjects, './public/projects.json');
 
   const newProject = {
     ...req.body,
@@ -313,43 +315,15 @@ app.post('/project', (req, res) => {
   );
 });
 
-app.get('/project/:id', (req, res) => {
-  
-  const url = req.originalUrl;
-  const lastPath = url.split('/').pop();
-
-  try {
-    /* Reading file first in order to create a new updated Project, (looking at the contents) */
-    renderingProjects = JSON.parse(fs.readFileSync('./public/projects.json'));
-    tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
-
-  } catch (err) {
-    console.log(err);
-  }
-
-  const foundProjects = renderingProjects.find(elem => elem.id === Number(lastPath));
-  console.log(foundProjects);
-
-  res.render('projects', {
-    renderingProjects,
-    foundProjects,
-    tasks,
-    title: 'Project',
-  });
-});
-
 app.post('/tasks', (req, res) => {
 
-
-  try {
-    tasks = JSON.parse(fs.readFileSync('./public/tasks.json'));
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  tasks = GetRequest(tasks, './public/tasks.json');
 
   let newTask = {
     ...req.body,
   }
+
+
   tasks.push(newTask);
   fs.writeFileSync(
     './public/tasks.json',

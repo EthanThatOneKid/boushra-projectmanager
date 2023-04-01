@@ -106,7 +106,6 @@ const companyID = window.location.pathname.split('/').pop();
 console.log(companyID);
 /* Sending a POST request for the backend to use */
 employeeForm.addEventListener('submit', (e) => {
-  e.preventDefault();
   let formData1 = new FormData(employeeForm);
   data = Object.fromEntries(formData1);
   let newData = {
@@ -199,7 +198,6 @@ search.addEventListener('input', (e) => {
 let clickable = document.querySelector('.clickcable');
 let navBar = document.querySelector('ul');
 clickable.addEventListener('click', (e) => {
-  e.preventDefault();
   navBar.style.display = navBar.style.display === 'none' ? 'inline' : 'none';
 });
 

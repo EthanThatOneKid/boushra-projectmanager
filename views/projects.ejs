@@ -25,16 +25,31 @@
     <button type = 'submit' class = 'add'> <span class = 'plus'>+</span> Add A Task! </button>
     <button type = 'click' class = 'view'> View All Tasks!</button>
   </div>
-
+  <div class = 'output'>
+    <div class = 'design1'>
+    <% if (foundTasks.length > 0) { %>
+      <% foundTasks.forEach((task) => { %>
+        <div class = 'design'>
+       <li><span> <%= task.date %>  : </span><i><%= task.description %></i></li>
+      </div>
+      <% }); %>
+    <% }%>
+  </div>
+  </div>
+  
   <div class="projects-all-output">
     <div class="to-do-container">
       <h1>All Current To-Do's!</h1>
-      <% if (tasks.length > 0) { %>
-        <% tasks.forEach((task) => { %>
-          <%= task.task %> :
-          <%= task.date %>
-          <%= task.description %>
-          <button> X </button>
+      <% if (foundTasks.length > 0) { %>
+        <% foundTasks.forEach((task) => { %>
+          <div class = 'design'>
+          <button data-id="1"> X </button> <%= task.task %> :
+          <%= task.date %> <br />
+          <div class = 'desc'>
+            <i><%= task.description %></i>
+          </div>
+        </div>
+        
         <% }); %>
       <% } else { %>
         <div>
@@ -73,7 +88,13 @@
 
     <script src = '/script.js'></script>
     <script>
-      
+
+    
+
+      const url = window.location.href;
+      const lastPath = url.split('/').pop(); 
+      console.log(lastPath)
+
       let form = document.querySelector('.projectform');
 
 
@@ -86,14 +107,14 @@
       }
 
       form.addEventListener('submit', (e) => {
+        e.preventDefault();
         let formData = new FormData(form);
         let data = Object.fromEntries(formData);
         console.log(data);
 
         let newData = {
           ...data,
-          id: RandomID(7),
-          
+          id: lastPath,
         };
 
         fetch(`http://localhost:3000/tasks`, {
@@ -106,7 +127,13 @@
       });
 
 
+    
 
+      let view = document.querySelector('.view');
+      let output = document.querySelector('.output');
+      view.addEventListener('click', () => {
+        output.classList.toggle('output')
+      })
 
     </script>
 
@@ -212,6 +239,23 @@
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
       }
 
+      .design1 {
+        background-color: #c2bfd6da;
+        margin: 40px 80px 40px 80px;
+        padding: 40px;
+        border-radius: 2px;
+        box-shadow: 0 0 10px #373449da;
+        width: 50em;
+        margin-left: auto;
+       margin-right: auto;
+      }
+      .output {
+        
+        display: none;
+        transition: all 500ms ease;
+      
+      }
+
       .plus {
         background-color: #d73232;
         color: #fff;
@@ -240,6 +284,7 @@
         padding: 20px;
         border-radius: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        
       }
 
       .to-do-container h1 {
@@ -247,6 +292,11 @@
         font-weight: 800;
         color: #333;
         margin-bottom: 20px;
+      }
+      button {
+        background-color: #d73232;
+        color: white;
+        border: solid 1px #5d2828;
       }
 
       .to-do-container p {
@@ -262,6 +312,20 @@
         font-size: 20px;
         color: #333;
         margin-bottom: 10px;
+      }
+
+      .desc {
+        color: gray;
+        margin-left: 30px;
+      }
+
+      .design {
+        border-bottom: solid 1.5px black;
+        padding: 15px;
+      }
+
+      i {
+        color: rgb(72, 67, 67);
       }
     </style>
   </body>
