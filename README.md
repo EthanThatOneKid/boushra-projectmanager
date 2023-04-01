@@ -35,21 +35,24 @@ Employees also have their own information logging in as well:
 ```
 With this, employees will be given their custom homepage and be able to track all employee projects under their company as well as add their own projects.
 
-## Planning to Do
-There are several things I plan to do to finish this as quickly as possible. I plan to make this a simple tool for learning purposes only. 
 
 ## Photos - Desktop
-<img width="1437" alt="Screen Shot 2023-03-06 at 11 12 23 PM" src="https://user-images.githubusercontent.com/116927138/223350262-88b94304-6598-45a3-96c1-1c893d9e90c4.png">
-<img width="1431" alt="Screen Shot 2023-03-06 at 11 12 40 PM" src="https://user-images.githubusercontent.com/116927138/223350337-08931169-3550-4b28-85c7-cf7016e7aa08.png">
-<img width="1437" alt="Screen Shot 2023-03-06 at 11 13 02 PM" src="https://user-images.githubusercontent.com/116927138/223350403-273fd0f3-2379-4e8c-88cf-7f223c734013.png">
-<img width="1433" alt="Screen Shot 2023-03-06 at 11 13 15 PM" src="https://user-images.githubusercontent.com/116927138/223350439-0d04793e-0b21-4a31-bd80-5b4f312e02e7.png">
-<img width="1429" alt="Screen Shot 2023-03-06 at 11 14 43 PM" src="https://user-images.githubusercontent.com/116927138/223350753-95650cdd-bf1f-4e7d-8a97-f6c53c6698bc.png">
-<img width="1439" alt="Screen Shot 2023-03-06 at 11 14 55 PM" src="https://user-images.githubusercontent.com/116927138/223350802-2a50a51e-9cad-4a62-9377-ffe8e9674fc9.png">
-<img width="1438" alt="Screen Shot 2023-03-06 at 11 15 05 PM" src="https://user-images.githubusercontent.com/116927138/223350831-2f40972d-1bf8-4ded-b170-358c696a153f.png">
-<img width="1439" alt="Screen Shot 2023-03-11 at 6 55 16 PM" src="https://user-images.githubusercontent.com/116927138/224521651-fb00003e-4c1d-4824-ba80-df9ba1101612.png">
-<img width="1355" alt="Screen Shot 2023-03-12 at 4 46 21 PM" src="https://user-images.githubusercontent.com/116927138/224581397-abb9ee64-870d-48a6-b187-c0415c133eb9.png">
+
+<img width="1428" alt="Screen Shot 2023-04-01 at 1 13 18 PM" src="https://user-images.githubusercontent.com/116927138/229312100-0c09437e-24ac-432c-9c4a-f69a010826e5.png">
+<img width="1428" alt="Screen Shot 2023-04-01 at 1 13 40 PM" src="https://user-images.githubusercontent.com/116927138/229312112-9d09b032-e15d-4de9-b02e-d8b45f4b584a.png">
+<img width="1432" alt="Screen Shot 2023-04-01 at 1 14 02 PM" src="https://user-images.githubusercontent.com/116927138/229312125-410e6e7c-2120-4aaf-9bbf-5ea1666443ad.png">
+<img width="1431" alt="Screen Shot 2023-04-01 at 1 14 17 PM" src="https://user-images.githubusercontent.com/116927138/229312138-4f7a253e-f451-40ef-89be-d5ff427f7513.png">
+<img width="1420" alt="Screen Shot 2023-04-01 at 1 15 00 PM" src="https://user-images.githubusercontent.com/116927138/229312164-be5038c6-5148-4e4b-b29f-d1c266fb2659.png">
+<img width="1432" alt="Screen Shot 2023-04-01 at 1 15 19 PM" src="https://user-images.githubusercontent.com/116927138/229312175-92998f44-95a8-4637-81b5-09641369e542.png">
+<img width="1436" alt="Screen Shot 2023-04-01 at 1 12 26 PM" src="https://user-images.githubusercontent.com/116927138/229312072-0fd7a3cf-c185-478c-ab13-0fe25b7d2132.png">
+<img width="1425" alt="Screen Shot 2023-04-01 at 1 12 44 PM" src="https://user-images.githubusercontent.com/116927138/229312081-84cb1d2f-b500-44b2-894e-ca5bf591fea5.png">
+<img width="1426" alt="Screen Shot 2023-04-01 at 1 13 03 PM" src="https://user-images.githubusercontent.com/116927138/229312090-9a02e74e-df3e-4e14-9186-f378424ade45.png">
 
 
+### First Beginner Application Complete. 
 
-### Working on capatability with phone. Design for phone is almost done.
+## What I Learned
+- Needing to refine and write clean code
+- Learning about the basics of Express
+- The importance of using a frontend framework for other projects
 
